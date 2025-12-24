@@ -1,0 +1,178 @@
+/* 기본 초기화 및 폰트 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Pretendard', sans-serif;
+}
+
+body {
+    /* 이미지 배경과 유사한 밝은 그레이 톤 */
+    background-color: #f8fafc; 
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 420px;
+}
+
+.login-box {
+    background-color: #ffffff;
+    padding: 50px 40px;
+    border-radius: 24px; /* 매우 둥근 모서리 */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); /* 부드러운 그림자 */
+    text-align: center;
+}
+
+/* 헤더: 이미지의 '안녕하세요' 느낌 */
+.login-header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.gradient-text {
+    /* 민트와 블루가 섞인 그래디언트 */
+    background: linear-gradient(135deg, #4ade80 0%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+}
+
+.login-header p {
+    color: #64748b;
+    margin-bottom: 35px;
+    font-size: 0.95rem;
+}
+
+/* 입력창 스타일 */
+.input-group {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.input-group i {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 1.1rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px 15px 14px 50px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 14px;
+    background-color: #fcfcfc;
+    outline: none;
+    transition: all 0.2s;
+    font-size: 1rem;
+}
+
+.input-group input:focus {
+    border-color: #4ade80; /* 포커스 시 민트색 */
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.1);
+}
+
+/* 옵션 및 체크박스 */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0 25px 0;
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+.form-options label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.form-options a {
+    text-decoration: none;
+    color: #3b82f6;
+    font-weight: 600;
+}
+
+/* 로그인 제출 버튼 (이미지의 보라/민트 배색 참고) */
+.login-submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(to right, #4ade80, #6366f1);
+    border: none;
+    border-radius: 14px;
+    color: white;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s;
+    margin-bottom: 30px;
+}
+
+.login-submit-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+}
+
+/* 소셜 로그인 섹션 */
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    border: 1.5px solid #e2e8f0;
+    text-decoration: none;
+    color: #334155;
+    font-size: 1.3rem;
+    transition: all 0.2s;
+}
+
+.social-btn:hover {
+    background-color: #f1f5f9;
+    border-color: #cbd5e1;
+    transform: scale(1.05);
+}
+
+/* 하단 텍스트 */
+.footer-text {
+    margin-top: 30px;
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.footer-text a {
+    color: #6366f1;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.back-home {
+    display: inline-block;
+    margin-top: 25px;
+    font-size: 0.85rem;
+    color: #94a3b8;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.back-home:hover {
+    color: #64748b;
+}

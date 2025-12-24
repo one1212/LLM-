@@ -1,0 +1,235 @@
+/* 1. 기본 초기화 및 폰트 설정 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Pretendard', -apple-system, sans-serif;
+}
+
+body {
+    background-color: #f0f2f5; 
+    color: #334155;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 2. 전체 레이아웃 컨테이너 */
+.app-container {
+    display: flex;
+    width: 98vw;
+    height: 96vh;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+/* 3. 사이드바 */
+.sidebar {
+    width: 75px;
+    min-width: 75px;
+    background-color: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 0;
+    border-right: 1px solid #e2e8f0;
+}
+
+.nav-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    align-items: center;
+}
+
+/* 4. 네비게이션 아이템 및 배지 설정 */
+.nav-item {
+    position: relative; /* 배지의 위치 기준점이 됨 */
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 14px;
+    text-decoration: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+/* 디스코드 스타일 알림 배지 */
+.badge {
+    position: absolute;
+    top: 5px;   /* 위치 미세 조정 */
+    right: 5px;
+    background-color: #ff4d4d; /* 알림 빨간색 */
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #f8fafc; /* 사이드바 배경색과 맞춰서 깔끔하게 */
+    padding: 0 4px;
+}
+
+.nav-item:hover {
+    background-color: #f1f5f9;
+    transform: translateY(-2px);
+}
+
+.nav-item.active {
+    background-color: #e2e8f0;
+}
+
+/* 5. 메인 콘텐츠 영역 */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    position: relative;
+    overflow-y: auto;
+}
+
+.top-bar {
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 40px;
+}
+
+.login-btn {
+    background-color: #ffffff;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.login-btn:hover {
+    background-color: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+/* 6. 중앙 인사말 섹션 */
+.welcome-container {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.welcome-text {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #1e293b;
+    line-height: 1.3;
+}
+
+.gradient-text {
+    color: #5eead4;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* 7. 채팅 리스트 섹션 */
+.chat-section {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 0 20px 40px 20px;
+}
+
+.chat-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.chat-header .title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #64748b;
+}
+
+.plus-icon-btn {
+    background: #f1f5f9;
+    border: none;
+    color: #94a3b8;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.chat-card {
+    background-color: #f8fafc;
+    height: 130px;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid #f1f5f9;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.chat-card:hover {
+    border-color: #5eead4;
+    background-color: #ffffff;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.03);
+    transform: translateY(-4px);
+}
+
+.chat-card.new-chat {
+    background-color: #5eead4;
+    border: none;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.chat-card.new-chat i {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.chat-card.new-chat span {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.card-info {
+    color: #475569;
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1.5;
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
+
+</head>
+<body>
+    <div class="app-container">
+        <nav class="sidebar">
+            <div class="nav-group top">
+                <a href="index.html" class="nav-item active">
+                    <img src="../img/icon_home.png" alt="Home" class="nav-icon">
+                </a>
+                <a href="../message/message.html" class="nav-item">
+                    <img src="../img/icon_message.png" alt="Messages" class="nav-icon">
+                    <span class="badge">3</span>
+                </a>
+            </div>
+            
+            <div class="nav-group bottom">
+                <div class="nav-item">
+                    <img src="../img/icon_profile.png" alt="Profile" class="nav-icon">
+                </div>
+                <div class="nav-item">
+                    <img src="../img/icon_settings.png" alt="Settings" class="nav-icon">
+                </div>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <div class="top-bar">
+                <a href="../login/login.html" style="text-decoration: none;">
+                    <button class="login-btn">로그인</button>
+                </a>
+            </div>
+            
+            <div class="welcome-container">
+                <h1 class="welcome-text">
+                    <span class="gradient-text">✨ 안녕하세요</span><br>무엇을 도와드릴까요?
+                </h1>
+            </div>
+
+            <section class="chat-section">
+                <div class="chat-header">
+                    <span class="title">내 채팅</span>
+                    <button class="plus-icon-btn"><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <div class="card-grid">
+                    <a href="../message/message.html" class="chat-card new-chat" style="text-decoration: none; color: inherit;">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>새 대화 시작</span>
+                    </a>
+
+                    <a href="../message/message.html" class="chat-card" style="text-decoration: none; color: inherit;">
+                        <p class="card-info">이전 대화 기록 1...</p>
+                    </a>
+
+                    <a href="../message/message.html" class="chat-card" style="text-decoration: none; color: inherit;">
+                        <p class="card-info">이전 대화 기록 2...</p>
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="index.js"></script>
+
+    <script>
+        // 로그인 폼 관련 로직 (필요 시 유지)
+        const loginForm = document.querySelector('.login-form');
+        if(loginForm) {
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.querySelector('input[type="email"]').value;
+                if(email) {
+                       alert(email + "님, 환영합니다!");
+                    window.location.href = "index.html";
+                }
+            });
+        }
+    </script>
+</body>
+</html>

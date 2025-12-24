@@ -1,0 +1,142 @@
+/* 기본 초기화 및 Pretendard 폰트 권장 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+}
+
+body {
+    /* 메인 대시보드와 같은 아주 밝은 회색 배경 */
+    background-color: #f8fafc;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.signup-wrapper {
+    width: 100%;
+    max-width: 440px;
+    padding: 20px;
+}
+
+.signup-card {
+    /* 카드 디자인: 순백색 + 매우 둥근 모서리 + 은은한 그림자 */
+    background-color: #ffffff;
+    padding: 50px 40px;
+    border-radius: 35px; /* 이미지의 부드러운 곡률 반영 */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
+    text-align: center;
+}
+
+/* 헤더: Welcome Back과 동일한 스타일 */
+.signup-header {
+    margin-bottom: 35px;
+}
+
+.gradient-title {
+    /* 메인 타이틀의 민트-블루 그래디언트 */
+    background: linear-gradient(135deg, #4ade80 0%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.signup-header p {
+    color: #64748b;
+    font-size: 0.95rem;
+    letter-spacing: -0.3px;
+}
+
+/* 입력 필드: 이미지 속 Email/PW 박스 스타일 */
+.input-field {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.input-field i {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 1.1rem;
+}
+
+.input-field input {
+    width: 100%;
+    padding: 16px 20px 16px 55px;
+    background-color: #ffffff;
+    border: 1.5px solid #f1f5f9; /* 아주 연한 테두리 */
+    border-radius: 18px;
+    color: #1e293b;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.input-field input::placeholder {
+    color: #cbd5e1;
+}
+
+/* 포커스 시 민트색 강조 */
+.input-field input:focus {
+    border-color: #4ade80;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.08);
+}
+
+/* 가입하기 버튼: 로그인 버튼과 동일한 그래디언트 */
+.submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(to right, #4ade80, #6366f1);
+    border: none;
+    border-radius: 18px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(74, 222, 128, 0.2);
+}
+
+/* 하단 링크 */
+.signup-footer {
+    margin-top: 35px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.signup-footer span {
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.signup-footer span a {
+    color: #4f46e5;
+    text-decoration: none;
+    font-weight: 700;
+    margin-left: 5px;
+}
+
+.back-link {
+    color: #94a3b8;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.back-link:hover {
+    color: #64748b;
+    text-decoration: underline;
+}

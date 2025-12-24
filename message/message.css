@@ -1,0 +1,143 @@
+/* 기본 초기화 */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body, html { width: 100%; height: 100vh; background-color: #fff; font-family: 'Pretendard', sans-serif; overflow: hidden; }
+.app-container { display: flex; width: 100%; height: 100vh; }
+
+/* --- 사이드바 (좌측) --- */
+.sidebar { 
+    width: 80px; height: 100%; background-color: #f8fafc; 
+    display: flex; flex-direction: column; justify-content: space-between; 
+    align-items: flex-start; padding: 25px 12.5px; border-right: 1px solid #e2e8f0; 
+    transition: width 0.3s ease; overflow: hidden; white-space: nowrap; flex-shrink: 0;
+}
+#explorer-toggle:checked ~ .app-container .sidebar { width: 260px; }
+.nav-item { width: 100%; height: 50px; display: flex; align-items: center; padding-left: 10px; border-radius: 12px; text-decoration: none; color: inherit; margin-bottom: 8px; }
+.nav-item.active { background-color: #e2e8f0; }
+.nav-icon { width: 30px; height: 30px; flex-shrink: 0; }
+.nav-desc { margin-left: 15px; font-size: 14px; color: #475569; opacity: 0; transition: opacity 0.2s; }
+#explorer-toggle:checked ~ .app-container .nav-desc { opacity: 1; }
+
+/* --- 채팅 영역 (중앙) --- */
+.chat-area { flex: 1; display: flex; flex-direction: column; position: relative; min-width: 0; }
+.chat-header { padding: 20px 30px; font-weight: 700; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; }
+.hamburger-menu { font-size: 22px; margin-right: 15px; cursor: pointer; }
+.chat-messages { flex: 1; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; padding-bottom: 160px; }
+
+/* --- [추가] 메시지 우측 정렬 및 체크박스 --- */
+.message.right { 
+    align-self: flex-end; 
+    display: flex; 
+    flex-direction: row; 
+    gap: 15px; 
+    align-items: flex-start; 
+}
+.bubble { 
+    padding: 14px 20px; border-radius: 18px; background: #f1f5f9; 
+    border: 1px solid #e2e8f0; max-width: 70%; font-size: 15px; color: #333;
+}
+.profile-group { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.avatar { width: 35px; height: 35px; background: #475569; border-radius: 50%; }
+.custom-checkbox { width: 18px; height: 18px; cursor: pointer; }
+
+/* --- 하단 입력창 컨트롤 --- */
+.bottom-controls { position: absolute; bottom: 30px; width: 100%; padding: 0 40px; display: flex; gap: 20px; align-items: center; }
+.input-container { 
+    flex: 1; display: flex; align-items: center; gap: 10px;
+    border-bottom: 2px solid #e2e8f0; 
+    padding: 5px 0;
+}
+.chat-input { 
+    flex: 1; border: none; outline: none; background: transparent; 
+    font-size: 16px; padding: 10px; 
+}
+
+.icon-btn { 
+    background: none; border: none; cursor: pointer; 
+    font-size: 20px; color: #94a3b8; transition: color 0.2s;
+    display: flex; align-items: center; justify-content: center;
+}
+.icon-btn:hover { color: #475569; }
+.icon-btn.send { color: #5eead4; font-size: 24px; }
+
+/* --- [수정] 프롬프트 패널 --- */
+.prompt-panel {
+    width: 0; 
+    height: 100%; 
+    background: #f4f7fb; 
+    color: #334155;
+    /* transition에 opacity를 넣었다면 active에서도 조절해줘야 합니다 */
+    transition: width 0.3s ease, opacity 0.3s ease; 
+    overflow: hidden; 
+    flex-shrink: 0;
+    display: flex; 
+    flex-direction: column;
+    opacity: 0; /* 닫혀있을 때 투명 */
+    visibility: hidden; /* 공간은 차지하지 않게 */
+}
+
+.prompt-panel.active { 
+    width: 400px; 
+    opacity: 1; /* 열렸을 때 색상이 선명하게 보이게 함 */
+    visibility: visible;
+    border-left: 1px solid #e2e8f0; 
+}
+
+/* 핵심: 내부 콘텐츠가 세로로 꺾이지 않도록 고정 너비 부여 */
+.panel-header { 
+    padding: 20px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    font-size: 20px; 
+    font-weight: 600; 
+    color: #1e293b;
+    border-bottom: 1px solid #e2e8f0;
+    min-width: 400px; /* 창이 작아져도 텍스트가 줄바꿈되지 않음 */
+    white-space: nowrap; 
+}
+
+.panel-content { 
+    padding: 20px; 
+    width: 400px; /* 고정 너비 */
+    min-width: 400px; /* 애니메이션 도중 내부 요소 모양 유지 */
+    display: flex; 
+    flex-direction: column; 
+    gap: 20px; 
+}
+
+.prompt-editor { 
+    height: 250px; 
+    background: #ffffff; 
+    border: none; 
+    border-radius: 15px; 
+    padding: 20px; 
+    color: #333; 
+    outline: none; 
+    overflow-y: auto; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+/* 이미지 스타일의 컬러 버튼들 */
+.action-row { display: flex; gap: 12px; margin-bottom: 5px; }
+
+.btn-copy { background: #bdf3e0; color: #065f46; } /* 이미지의 Copy 버튼 색상 */
+.btn-save { background: #bfdbfe; color: #1e40af; } /* 이미지의 Save 버튼 색상 */
+.btn-call { background: #3b82f6; color: #fff; margin-top: 10px; } /* 이미지의 Call LLM 버튼 색상 */
+
+.white-btn, .llm-call-btn { 
+    flex: 1; padding: 14px; border: none; border-radius: 12px; 
+    font-weight: 700; cursor: pointer; transition: opacity 0.2s;
+}
+.white-btn:hover, .llm-call-btn:hover { opacity: 0.8; }
+
+.close-btn { 
+    background: #e2e8f0; border: none; color: #64748b; 
+    width: 30px; height: 30px; border-radius: 50%; 
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+
+/* 기존 민트색 프롬프트 생성 버튼 */
+.prompt-action-btn { 
+    background: #5eead4; color: #042f2e; padding: 16px 25px; 
+    border-radius: 20px; font-weight: 700; border: none; 
+    cursor: pointer; white-space: nowrap; 
+}

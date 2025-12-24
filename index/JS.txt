@@ -1,0 +1,18 @@
+document.querySelector('a[href*="message.html"]') 
+HTML 문서 안에서 href 속성 값에 "message.html"이라는 글자가 포함된(*=) 첫 번째 <a> 태그(링크)를 찾으라는 뜻. 
+보통 메시지함이나 알림함 링크를 타겟팅할 때 사용한다.
+
+.addEventListener('click', function(e) { ... });
+위에 찾은 링크에 클릭 사건이 발생하는지 감시하겠다는 설정
+클릭하면 {} 안에 코드가 실행함
+
+const badge = this.querySelector('.badge');
+this(방금 클릭한 링크) 안에서 클래스 이름이 badge인 요소(읽지 않은 메시지 수 표시) 를 찾아 bage라는 변수에 저장
+
+if(badge) 
+링크 안에 배지 요소가 실제로 존재할 때만 다음 코드를 실행하라는 안전장치
+배지가 없는데 수정할려고 하면 에러가 날 수 있다.
+
+bagee.style.display = 'none';
+해당 배지 요소의 CSS 스타일 중 display 속성을 none으로 바꾼다.
+화면에서 배지가 즉시 사라지게 됩니다.

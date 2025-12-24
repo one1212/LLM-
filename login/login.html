@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 - AI Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <h1 class="gradient-text">Welcome Back</h1>
+                <p>계정에 로그인하여 계속하세요</p>
+            </div>
+
+            <form class="login-form">
+                <div class="input-group">
+                    <i class="fa-regular fa-envelope"></i>
+                    <input type="email" placeholder="이메일 주소" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" placeholder="비밀번호" required>
+                </div>
+
+                <div class="form-options">
+                    <label><input type="checkbox"> 로그인 유지</label>
+                    <a href="#">비밀번호 찾기</a>
+                </div>
+
+                <form id="loginForm" class="login-form">
+                    <button type="submit" class="login-submit-btn">로그인</button>
+                </form>
+            </form>
+
+            <div class="social-icons">
+                <a href="https://accounts.google.com/signin" class="social-btn" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-google"></i>
+                </a>
+
+                <a href="https://github.com/login" class="social-btn" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+</div>
+
+            <p class="footer-text">계정이 없으신가요? <a href="../sign/sign.html">회원가입</a></p>
+            
+            <a href="../index/index.html" class="back-home">홈으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
