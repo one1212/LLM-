@@ -1,24 +1,13 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Management - AI Dashboard</title>
-    <script>
-        (function initTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        })();
-    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <link rel="stylesheet" href="management.css">
-
 </head>
-
-<body>
+<body data-theme="dark"> 
     <div class="app-container">
         <nav class="sidebar">
             <div class="nav-group top">
@@ -26,22 +15,22 @@
                     <img src="../img/icon_home-removebg-preview.png" alt="Home" class="nav-icon">
                     <p class="nav-desc">메인 화면</p>
                 </a>
-                <a href="../management/management.html" class="nav-item">
+                <a href="../management/management.html" class="nav-item active">
                     <img src="../img/icon_file-removebg-preview.png" alt="File" class="nav-icon">
                     <p class="nav-desc">파일 관리</p>
                 </a>
-                <a href="../message/message.html" class="nav-item active">
+                <a href="../message/message.html" class="nav-item">
                     <img src="../img/icon_message-removebg-preview.png" alt="Messages" class="nav-icon">
                     <p class="nav-desc">메시지방</p>
                 </a>
             </div>
             <div class="nav-group bottom">
-                <div class="nav-item"><img src="../img/icon_profile-removebg-preview.png" alt="Profile"
-                        class="nav-icon">
+                <div class="nav-item">
+                    <img src="../img/icon_profile-removebg-preview.png" alt="Profile" class="nav-icon">
                     <p class="nav-desc">프로필</p>
                 </div>
-                <div class="nav-item"><img src="../img/icon_settings-removebg-preview.png" alt="Settings"
-                        class="nav-icon">
+                <div class="nav-item">
+                    <img src="../img/icon_settings-removebg-preview.png" alt="Settings" class="nav-icon">
                     <p class="nav-desc">설정</p>
                 </div>
             </div>
@@ -49,48 +38,62 @@
 
         <main class="main-content">
             <header class="content-header">
-                <h2>관리</h2>
+                <h2>내 채팅 <button class="add-inline-btn">+</button></h2>
             </header>
 
-            <div class="file-table-container">
-                <table class="file-table">
-                    <thead>
-                        <tr>
-                            <th style="width: 100px;"><input type="checkbox" id="selectAll"> 모두선택</th>
-                            <th>파일명</th>
-                            <th>날짜</th>
-                            <th>업로더</th>
-                        </tr>
-                    </thead>
-                    <tbody id="fileListBody">
-                        <tr>
-                            <td><input type="checkbox" class="file-check"></td>
-                            <td><span class="file-icon">PDF</span> 오승원 화보집.pdf</td>
-                            <td>2025.11.06</td>
-                            <td>김영웅</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" class="file-check" checked></td>
-                            <td><span class="file-icon">PNG</span> 오승원 증명사진.png</td>
-                            <td>2025.12.11</td>
-                            <td>오승원</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="file-card-grid" id="fileGrid">
+                <div class="file-card add-new" id="uploadBtn">
+                    <i class="fa-solid fa-plus add-icon"></i>
+                    <div class="add-text">새 프로젝트 시작</div>
+                    <input type="file" id="hiddenFileInput" hidden multiple>
+                </div>
+
+                <div class="file-card completed" id="sample-1" onclick="openPreview('LLM 피안 챗봇 계열', '2024.03.25', '이 프로젝트는 RAG 기술을 활용한 가이드 문서 분석 건입니다.')">
+                    <div class="card-check-wrapper" onclick="event.stopPropagation()">
+                        <input type="checkbox" class="file-check" data-id="sample-1">
+                    </div>
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">LLM 피안 챗봇 계열</div>
+                            <div class="card-info-text">2024.03.25</div>
+                        </div>
+                        <i class="fa-regular fa-comment-dots" style="color: #5eead4;"></i>
+                    </div>
+                    
+                    <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                        <span class="status-badge completed">분석 완료</span>
+                        <button class="mini-opt-btn" style="max-width: 80px;" onclick="event.stopPropagation(); openPreview('LLM 피안 챗봇 계열', '2024.03.25', '미리보기 데이터입니다.')">미리보기</button>
+                    </div>
+
+                    <div class="card-footer">
+                        <span class="id-tag">ID: 2546</span>
+                        <span class="size-tag"><i class="fa-regular fa-comment"></i> 20.7 MB</span>
+                    </div>
+                </div>
             </div>
 
             <footer class="table-footer">
-                <input type="file" id="hiddenFileInput" hidden>
-                <button class="action-btn" id="uploadBtn">업로드</button>
-                <div class="right-btns">
-                    <button class="action-btn" id="deleteBtn">선택삭제</button>
-                    <button class="action-btn primary">다운로드</button>
-                </div>
+                <button class="action-btn" id="deleteBtn">선택 삭제</button>
             </footer>
         </main>
     </div>
 
+    <div id="previewModal" class="modal-overlay" onclick="if(event.target === this) closePreview()">
+        <div class="modal-window">
+            <span class="modal-close" onclick="closePreview()">&times;</span>
+            <h2 id="previewTitle" style="color: #5eead4;">파일명</h2>
+            <p id="previewDate" class="card-info-text" style="margin-bottom: 20px;">날짜 정보</p>
+            
+            <div id="previewBody" class="modal-body">
+                </div>
+
+            <div class="modal-footer">
+                <button type="button" onclick="closePreview()" class="action-btn">닫기</button>
+                <button type="button" id="goToChatBtn" class="action-btn primary">채팅방 입장</button>
+            </div>
+        </div>
+    </div>
+
     <script src="management.js"></script>
 </body>
-
 </html>

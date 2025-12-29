@@ -1,114 +1,185 @@
-// 요소 선택
-const uploadBtn = document.getElementById('uploadBtn');
-const hiddenInput = document.getElementById('hiddenFileInput');
-const fileListBody = document.getElementById('fileListBody');
-const deleteBtn = document.getElementById('deleteBtn');
-const selectAll = document.getElementById('selectAll');
-// 6. 선택 다운로드 기능
-const downloadBtn = document.querySelector('.action-btn.primary');
+document.addEventListener('DOMContentLoaded', () => {
+    const uploadBtn = document.getElementById('uploadBtn');
+    const hiddenFileInput = document.getElementById('hiddenFileInput');
+    const fileGrid = document.getElementById('fileGrid');
+    const deleteBtn = document.getElementById('deleteBtn');
 
-// 1. 업로드 버튼 클릭 시 파일 창 열기 (클릭 피드백은 CSS :active로 처리)
-uploadBtn.addEventListener('click', () => hiddenInput.click());
+    // 1. 업로드 카드 클릭 시 파일 선택창 열기
+    uploadBtn.addEventListener('click', () => {
+        hiddenFileInput.click();
+    });
 
-// 2. 파일 선택 시 테이블에 행 추가
-hiddenInput.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    // 2. 파일 선택 이벤트
+    hiddenFileInput.addEventListener('change', (e) => {
+        const files = Array.from(e.target.files);
+        files.forEach(file => {
+            addFileCard(file);
+        });
+        hiddenFileInput.value = '';
+    });
 
-    const date = new Date().toISOString().split('T')[0].replace(/-/g, '.');
-    const ext = file.name.split('.').pop().toUpperCase();
+    // 3. 카드 그리드에 새 카드 추가
+    function addFileCard(file) {
+        const cardId = 'card-' + Date.now() + Math.random().toString(36).substr(2, 5);
+        const fileName = file.name;
+        const date = new Date().toLocaleDateString('ko-KR');
+        
+        const cardHtml = `
+            <div class="file-card" id="${cardId}" style="position: relative; transition: all 0.3s ease; border: 1px solid #333;">
+                <div class="card-check-wrapper" style="position: absolute; top: 15px; left: 15px; z-index: 10;">
+                    <input type="checkbox" class="file-check" data-id="${cardId}" style="width: 18px; height: 18px; cursor: pointer; accent-color: #5eead4;">
+                </div>
 
-    const tr = document.createElement('tr');
-    // 새 행이 추가될 때 애니메이션 효과를 위해 클래스 추가 가능
-    tr.innerHTML = `
-        <td><input type="checkbox" class="file-check"></td>
-        <td><span class="file-icon ${ext}">${ext}</span> ${file.name}</td>
-        <td>${date}</td>
-        <td>사용자(나)</td>
-    `;
-    
-    fileListBody.prepend(tr);
-    hiddenInput.value = ''; // 파일 선택 초기화
+                <div class="card-header" style="padding-left: 25px;">
+                    <div>
+                        <div class="card-title" style="font-weight: 700; color: #fff;">${fileName}</div>
+                        <div class="card-info-text" style="font-size: 11px; color: #666;">${date}</div>
+                    </div>
+                    <i class="fa-regular fa-comment-dots" style="color: #5eead4; font-size: 18px;"></i>
+                </div>
+                
+                <div class="mode-selection-area" style="margin-top: 25px; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 15px; text-align: center;">
+                    <p style="font-size: 10px; color: #666; margin-bottom: 10px;">분석 모드를 선택하세요</p>
+                    <div style="display: flex; gap: 6px;">
+                        <button class="mini-opt-btn" onclick="startAnalysis('${cardId}', 'fast')" style="flex:1; padding: 8px; border-radius: 10px; border: 1px solid #334155; background: #2d2d2d; color: #5eead4; font-size: 11px; font-weight: 700; cursor: pointer;">⚡ 고속</button>
+                        <button class="mini-opt-btn" onclick="startAnalysis('${cardId}', 'slow')" style="flex:1; padding: 8px; border-radius: 10px; border: 1px solid #334155; background: #2d2d2d; color: #94a3b8; font-size: 11px; font-weight: 700; cursor: pointer;">☁️ 일반</button>
+                    </div>
+                </div>
 
-    if (selectAll.checked) {
-    tr.style.backgroundColor = '#f0f7ff';
-}
-});
+                <div class="card-footer" style="display:flex; justify-content:space-between; margin-top: auto; padding-top: 20px; font-size:12px; color:#444;">
+                    <span>ID: ${cardId.slice(-4)}</span>
+                    <span class="status-label-footer">대기 중...</span>
+                </div>
+            </div>
+        `;
 
-// 3. 선택 삭제 (삭제 시 확인창 및 파란색 테마 유지)
-deleteBtn.addEventListener('click', () => {
-    const checked = document.querySelectorAll('.file-check:checked');
-    if (checked.length === 0) {
-        alert("삭제할 파일을 선택해주세요.");
-        return;
+        uploadBtn.insertAdjacentHTML('afterend', cardHtml);
     }
 
-    if(confirm(`${checked.length}개의 파일을 삭제하시겠습니까?`)) {
-        checked.forEach(item => {
-            const tr = item.closest('tr');
-            tr.style.opacity = '0';
-            tr.style.transition = '0.3s';
-            setTimeout(() => tr.remove(), 300); // 부드럽게 삭제
+    // 4. 선택 삭제 기능
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', () => {
+            const checkedBoxes = document.querySelectorAll('.file-check:checked');
+            if (checkedBoxes.length === 0) {
+                alert('삭제할 카드를 선택해주세요.');
+                return;
+            }
+            if (confirm(`${checkedBoxes.length}개의 프로젝트를 삭제하시겠습니까?`)) {
+                checkedBoxes.forEach(box => {
+                    const cardId = box.getAttribute('data-id');
+                    const card = document.getElementById(cardId);
+                    if (card) card.remove();
+                });
+            }
         });
     }
-});
 
-// 4. 전체 선택 (파란색 체크박스 동기화)
-selectAll.addEventListener('change', (e) => {
-    const checks = document.querySelectorAll('.file-check');
-    checks.forEach(c => {
-        c.checked = e.target.checked;
-        // 선택 시 행 배경색 변경 효과를 주고 싶다면 여기에 추가
-        const tr = c.closest('tr');
-        if (e.target.checked) {
-            tr.style.backgroundColor = '#f0f7ff';
-        } else {
-            tr.style.backgroundColor = 'transparent';
-        }
-    });
-});
+    // 5. 분석 시작 함수
+    window.startAnalysis = function(cardId, mode) {
+        const card = document.getElementById(cardId);
+        const selectionArea = card.querySelector('.mode-selection-area');
 
-// 5. [추가] 개별 체크박스 클릭 시 행 배경색 변경 (선택된 느낌 강조)
-fileListBody.addEventListener('change', (e) => {
-    if (e.target.classList.contains('file-check')) {
-        const tr = e.target.closest('tr');
-        if (e.target.checked) {
-            tr.style.backgroundColor = '#f0f7ff'; // 연한 파란색 배경
-            tr.style.transition = 'background-color 0.2s';
-        } else {
-            tr.style.backgroundColor = 'transparent';
-        }
+        selectionArea.outerHTML = `
+            <div class="card-status-area" style="margin-top: 20px; padding-left: 25px;">
+                <div class="progress-text" style="display:flex; justify-content:space-between; font-size:11px; color:#5eead4; margin-bottom:8px;">
+                    <span class="status-label">${mode === 'fast' ? '⚡ 고속 분석 중' : '☁️ 백그라운드 분석 중'}</span>
+                    <span class="percent">0%</span>
+                </div>
+                <div class="progress-bar-bg" style="width:100%; height:4px; background:#333; border-radius:2px; overflow:hidden;">
+                    <div class="progress-bar-fill" style="width: 0%; height:100%; background:#5eead4; transition: width 0.3s ease;"></div>
+                </div>
+                <p class="status-msg" style="font-size:10px; color:#5eead4; margin-top:6px;">엔진 초기화 중...</p>
+            </div>
+        `;
+        simulateRAGCard(cardId, mode);
+    };
+
+    // 6. 시뮬레이션 및 모달 연결
+    function simulateRAGCard(cardId, mode) {
+        const card = document.getElementById(cardId);
+        const bar = card.querySelector('.progress-bar-fill');
+        const percentText = card.querySelector('.percent');
+        const statusMsg = card.querySelector('.status-msg');
+
+        let progress = 0;
+        const intervalTime = mode === 'fast' ? 100 : 400; 
+        const progressStep = mode === 'fast' ? 5 : 2;
+
+        const interval = setInterval(() => {
+            progress += Math.floor(Math.random() * progressStep) + 1;
+            
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(interval);
+                bar.style.width = '100%';
+                percentText.innerText = '100%';
+                
+                setTimeout(() => {
+                    const statusArea = card.querySelector('.card-status-area');
+                    const fileName = card.querySelector('.card-title').innerText;
+                    const date = card.querySelector('.card-info-text').innerText;
+
+                    if(statusArea) {
+                        statusArea.innerHTML = `
+                            <div style="margin-top: 15px; display: flex; justify-content: space-between; align-items: center;">
+                                <div class="status-badge completed" style="background:rgba(94,234,212,0.1); color:#5eead4; padding:4px 12px; border-radius:20px; font-size:11px; display:inline-block; border:1px solid rgba(94,234,212,0.3);">
+                                    분석 완료
+                                </div>
+                                <button class="view-btn" onclick="event.stopPropagation(); openPreview('${fileName}', '${date}', '이 파일(${fileName})에 대한 RAG 분석이 성공적으로 완료되었습니다. <br>이제 채팅방에서 질문을 시작할 수 있습니다.')" style="background:#5eead4; color:#121212; border:none; padding:6px 12px; border-radius:8px; font-size:11px; font-weight:800; cursor:pointer;">미리보기 →</button>
+                            </div>
+                        `;
+                    }
+                    
+                    card.style.borderColor = '#5eead4';
+                    card.style.boxShadow = '0 0 15px rgba(94, 234, 212, 0.1)';
+                    card.querySelector('.status-label-footer').innerText = '분석 완료 (미리보기 가능)';
+                    
+                    // 카드 클릭 시 모달 열기
+                    card.onclick = function(e) {
+                        if (e.target.closest('.file-check') || e.target.closest('.mini-opt-btn')) return;
+                        openPreview(fileName, date, "이 프로젝트의 분석 데이터 미리보기입니다.");
+                    };
+                }, 500);
+            } else {
+                if(bar) bar.style.width = `${progress}%`;
+                if(percentText) percentText.innerText = `${progress}%`;
+                if(progress > 40 && progress < 80) statusMsg.innerText = "데이터 지식화 중...";
+                if(progress >= 80) statusMsg.innerText = "최종 인덱싱 중...";
+            }
+        }, intervalTime);
     }
 });
 
-//6. 선택 다운로드 기능
-downloadBtn.addEventListener('click', () => {
-    // 체크된 모든 체크박스 가져오기
-    const checked = document.querySelectorAll('.file-check:checked');
+// --- 모달 기능 (전역 함수) ---
 
-    if (checked.length === 0) {
-        alert("다운로드할 파일을 선택해주세요.");
-        return;
+function openPreview(title, date, content) {
+    const modal = document.getElementById('previewModal');
+    const previewTitle = document.getElementById('previewTitle');
+    const previewDate = document.getElementById('previewDate');
+    const previewBody = document.getElementById('previewBody');
+    const goToChatBtn = document.getElementById('goToChatBtn');
+
+    previewTitle.innerText = title;
+    previewDate.innerText = date;
+    previewBody.innerHTML = content;
+    
+    // [중요] 채팅방 입장 버튼에 이동 이벤트 연결
+    goToChatBtn.onclick = function() {
+        window.location.href = `../message/message.html?file=${encodeURIComponent(title)}`;
+    };
+
+    modal.style.display = 'flex';
+}
+
+function closePreview() {
+    const modal = document.getElementById('previewModal');
+    modal.style.display = 'none';
+}
+
+// 배경 클릭 시 닫기
+window.addEventListener('click', (event) => {
+    const modal = document.getElementById('previewModal');
+    if (event.target == modal) {
+        closePreview();
     }
-
-    // 선택된 각 행을 돌며 파일 다운로드 실행
-    checked.forEach((item, index) => {
-        const tr = item.closest('tr');
-        // 두 번째 <td> 안의 텍스트에서 파일명만 추출
-        const fileName = tr.cells[1].innerText.replace(/^(PDF|PNG|JPG|TXT|ZIP)\s/, '').trim();
-        
-        // 실제 환경에서는 파일의 URL이 필요합니다.
-        // 여기서는 예시로 파일명을 이용한 경로를 생성합니다.
-        const fileUrl = `../downloads/${fileName}`; 
-
-        // 브라우저의 다중 다운로드 차단을 방지하기 위해 약간의 시차를 두고 실행
-        setTimeout(() => {
-            const link = document.createElement('a');
-            link.href = fileUrl;
-            link.download = fileName; // 다운로드될 파일명 설정
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }, index * 300); // 0.3초 간격
-    });
 });

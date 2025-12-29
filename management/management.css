@@ -1,4 +1,27 @@
 /* 기본 초기화 */
+/* --- 테마 변수 설정 (추가) --- */
+:root {
+    --bg-main: #ffffff;
+    --bg-sidebar: #f8fafc;
+    --bg-bubble: #f1f5f9;
+    --bg-panel: #f4f7fb;
+    --text-main: #333333;
+    --text-muted: #475569;
+    --border-color: #e2e8f0;
+    --input-bg: transparent;
+}
+
+[data-theme='dark'] {
+    --bg-main: #121212;      /* 깊은 어두운 색 */
+    --bg-sidebar: #1e1e1e;   /* 사이드바 구분 색 */
+    --bg-bubble: #2d2d2d;    /* 메시지 말풍선 */
+    --bg-panel: #1e1e1e;     /* 프롬프트 패널 */
+    --text-main: #e5e7eb;    /* 밝은 텍스트 */
+    --text-muted: #94a3b8;   /* 흐린 텍스트 */
+    --border-color: #334155; /* 어두운 경계선 */
+    --input-bg: #1e1e1e;
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body, html { width: 100%; height: 100vh; background-color: #f8fafc; font-family: 'Pretendard', sans-serif; overflow: hidden; }
 .app-container { display: flex; width: 100%; height: 100vh; }
@@ -65,17 +88,317 @@ body, html { width: 100%; height: 100vh; background-color: #f8fafc; font-family:
 .action-btn.primary:hover { background: #2563eb; }
 .action-btn.primary:active { background: #1d4ed8; }
 
-/* 체크박스 클릭 시 파란색 테두리/배경 강조 */
-.file-check {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-    accent-color: #3b82f6; /* 브라우저 기본 체크박스를 파란색으로 */
-}
-
 /* 행(tr)에 마우스를 올렸을 때와 선택되었을 때의 피드백 */
 .file-table tbody tr:hover {
     background-color: #f8fafc;
     cursor: default;
 }
 
+/* --- 다크모드 대응 적용 (추가) --- */
+body, html { background-color: var(--bg-main) !important; color: var(--text-main); }
+
+.sidebar { background-color: var(--bg-sidebar) !important; border-right-color: var(--border-color) !important; }
+.nav-item.active { background-color: var(--border-color) !important; }
+.nav-desc { color: var(--text-muted) !important; }
+
+.chat-header { border-bottom-color: var(--border-color) !important; color: var(--text-main); }
+.bubble { background: var(--bg-bubble) !important; border-color: var(--border-color) !important; color: var(--text-main) !important; }
+
+.input-container { border-bottom-color: var(--border-color) !important; }
+.chat-input { color: var(--text-main) !important; }
+
+.prompt-panel { background: var(--bg-panel) !important; color: var(--text-main) !important; }
+.prompt-panel.active { border-left-color: var(--border-color) !important; }
+.panel-header { background: var(--bg-panel) !important; color: var(--text-main) !important; border-bottom-color: var(--border-color) !important; }
+.prompt-editor { background: var(--bg-sidebar) !important; border-color: var(--border-color) !important; color: var(--text-main) !important; }
+
+/* 버튼류 색상 조정 */
+.btn-copy, .white-btn { background: var(--bg-bubble) !important; color: var(--text-main) !important; }
+
+/* --- RAG 분석 상태 및 프로그레스 바 추가 스타일 --- */
+
+/* 분석 중인 행 배경 살짝 강조 */
+tr.analyzing {
+    background-color: rgba(94, 234, 212, 0.03) !important;
+}
+
+/* 1. 상태 배지 (완료/진행중 공통) */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* 완료 배지: 민트색 포인트 */
+.status-badge.completed {
+    background-color: rgba(94, 234, 212, 0.1);
+    color: #5eead4; /* 요청하신 민트색 포인트 */
+    border: 1px solid rgba(94, 234, 212, 0.3);
+}
+
+/* 2. 프로그레스 바 컨테이너 */
+.progress-container {
+    width: 100%;
+    max-width: 220px;
+}
+
+/* 상단 텍스트 레이아웃 */
+.progress-text {
+    font-size: 11px;
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-muted);
+}
+
+.percent {
+    color: #5eead4;
+    font-weight: 700;
+}
+
+/* 바 배경 */
+.progress-bar-bg {
+    width: 100%;
+    height: 6px;
+    background: var(--border-color); /* 기존 변수 활용 */
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+
+/* 바 채우기: 민트색 그라데이션 및 효과 */
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #5eead4, #2dd4bf);
+    width: 0%; /* JS에서 동적 제어 */
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 8px rgba(94, 234, 212, 0.4);
+}
+
+/* 하단 상태 메시지 */
+.status-msg {
+    font-size: 10px;
+    color: #5eead4;
+    font-weight: 500;
+    display: block;
+    animation: statusPulse 1.5s infinite;
+}
+
+/* 애니메이션: 글자가 부드럽게 깜빡임 */
+@keyframes statusPulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+
+/* 다크모드 대응 보완 */
+[data-theme='dark'] .progress-bar-bg {
+    background: #334155;
+}
+
+[data-theme='dark'] .status-badge.completed {
+    background-color: rgba(94, 234, 212, 0.15);
+}
+
+/* --- [핵심] 카드 그리드 레이아웃 추가 --- */
+.file-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 20px;
+}
+
+/* 개별 카드 스타일 */
+.file-card {
+    background: #1e1e1e; 
+    border: 1px solid #333;
+    border-radius: 24px;
+    padding: 24px;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.file-card:hover {
+    border-color: #5eead4;
+    transform: translateY(-4px);
+}
+
+/* 왼쪽 상단 새 카드 추가 버튼 전용 */
+.file-card.add-new {
+    background: #5eead4;
+    border: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.file-card.add-new .add-icon {
+    font-size: 32px;
+    color: rgba(0, 0, 0, 0.2);
+    margin-bottom: 8px;
+}
+
+.file-card.add-new .add-text {
+    color: #121212;
+    font-weight: 800;
+    font-size: 16px;
+}
+
+/* 카드 상단 정보 */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.card-title {
+    color: #e5e7eb;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+.card-info-text {
+    font-size: 11px;
+    color: #666;
+    margin-top: 4px;
+}
+
+/* 카드 하단 데이터 */
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 20px;
+}
+
+.card-footer .id-tag {
+    color: #444;
+}
+
+.card-footer .size-tag {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.mini-opt-btn {
+    flex: 1;
+    padding: 10px 5px;
+    border-radius: 12px;
+    border: 1px solid #334155;
+    background: #2d2d2d;
+    color: #e5e7eb;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.mini-opt-btn:hover {
+    border-color: #5eead4;
+    color: #5eead4;
+    background: rgba(94, 234, 212, 0.05);
+}
+
+.mini-opt-btn.fast:active {
+    background: #5eead4;
+    color: #121212;
+}
+
+/* 분석 완료된 카드 전용 호버 효과 */
+.file-card.completed:hover {
+    box-shadow: 0 0 15px rgba(94, 234, 212, 0.2);
+    border-color: #5eead4 !important;
+}
+
+.view-btn:hover {
+    background: #4ade80 !important; 
+    transform: scale(1.05);
+}
+
+/* =========================================
+   추가된 미리보기 모달(Modal) 스타일
+   ========================================= */
+
+.modal-overlay {
+    display: none; 
+    position: fixed;
+    z-index: 9999;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-window {
+    background: #1e1e1e;
+    border: 1px solid #333;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 28px;
+    padding: 35px;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    animation: modalSlideUp 0.3s ease-out;
+}
+
+.modal-window h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #5eead4;
+    margin-bottom: 5px;
+}
+
+.modal-date {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.modal-body {
+    background: #121212;
+    border: 1px solid #2d2d2d;
+    border-radius: 18px;
+    padding: 20px;
+    max-height: 200px;
+    overflow-y: auto;
+    color: #e5e7eb;
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.modal-close-btn {
+    position: absolute;
+    right: 25px;
+    top: 25px;
+    font-size: 24px;
+    color: #475569;
+    cursor: pointer;
+}
+
+@keyframes modalSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-body::-webkit-scrollbar { width: 5px; }
+.modal-body::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }

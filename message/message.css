@@ -1,4 +1,26 @@
 /* 기본 초기화 */
+/* --- 테마 변수 설정 (추가) --- */
+:root {
+    --bg-main: #ffffff;
+    --bg-sidebar: #f8fafc;
+    --bg-bubble: #f1f5f9;
+    --bg-panel: #f4f7fb;
+    --text-main: #333333;
+    --text-muted: #475569;
+    --border-color: #e2e8f0;
+    --input-bg: transparent;
+}
+
+[data-theme='dark'] {
+    --bg-main: #121212;      /* 깊은 어두운 색 */
+    --bg-sidebar: #1e1e1e;   /* 사이드바 구분 색 */
+    --bg-bubble: #2d2d2d;    /* 메시지 말풍선 */
+    --bg-panel: #1e1e1e;     /* 프롬프트 패널 */
+    --text-main: #e5e7eb;    /* 밝은 텍스트 */
+    --text-muted: #94a3b8;   /* 흐린 텍스트 */
+    --border-color: #334155; /* 어두운 경계선 */
+    --input-bg: #1e1e1e;
+}
 * { 
     margin: 0; padding: 0; box-sizing: border-box; 
     -webkit-font-smoothing: antialiased; /* 글꼴 매끄럽게 */
@@ -189,3 +211,24 @@ body, html {
 .file-chip .remove-file { cursor: pointer; font-size: 16px; font-weight: bold; color: #60a5fa; transition: color 0.2s; }
 .file-chip .remove-file:hover { color: #ef4444; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+/* --- 다크모드 대응 적용 (추가) --- */
+body, html { background-color: var(--bg-main) !important; color: var(--text-main); }
+
+.sidebar { background-color: var(--bg-sidebar) !important; border-right-color: var(--border-color) !important; }
+.nav-item.active { background-color: var(--border-color) !important; }
+.nav-desc { color: var(--text-muted) !important; }
+
+.chat-header { border-bottom-color: var(--border-color) !important; color: var(--text-main); }
+.bubble { background: var(--bg-bubble) !important; border-color: var(--border-color) !important; color: var(--text-main) !important; }
+
+.input-container { border-bottom-color: var(--border-color) !important; }
+.chat-input { color: var(--text-main) !important; }
+
+.prompt-panel { background: var(--bg-panel) !important; color: var(--text-main) !important; }
+.prompt-panel.active { border-left-color: var(--border-color) !important; }
+.panel-header { background: var(--bg-panel) !important; color: var(--text-main) !important; border-bottom-color: var(--border-color) !important; }
+.prompt-editor { background: var(--bg-sidebar) !important; border-color: var(--border-color) !important; color: var(--text-main) !important; }
+
+/* 버튼류 색상 조정 */
+.btn-copy, .white-btn { background: var(--bg-bubble) !important; color: var(--text-main) !important; }
