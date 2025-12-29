@@ -1,79 +1,96 @@
-    <!DOCTYPE html>
-    <html lang="ko">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Management - AI Dashboard</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        
-        <link rel="stylesheet" href="management.css">
-    </head>
-    <body>
-        <div class="app-container">
-            <nav class="sidebar">
-                <div class="nav-group top">
-                    <a href="../index/index.html" class="nav-item">
-                        <img src="../img/icon_home.png" alt="Home" class="nav-icon">
-                        <p class="nav-desc">메인 화면</p>
-                    </a>
-                    <a href="../management/management.html" class="nav-item">
-                        <img src="../img/icon_file.png" alt="File" class="nav-icon">
-                        <p class="nav-desc">파일 관리</p>
-                    </a>
-                    <a href="../message/message.html" class="nav-item active">
-                        <img src="../img/icon_message.png" alt="Messages" class="nav-icon">
-                        <p class="nav-desc">메시지방</p>
-                    </a>
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Management - AI Dashboard</title>
+    <script>
+        (function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="management.css">
+
+</head>
+
+<body>
+    <div class="app-container">
+        <nav class="sidebar">
+            <div class="nav-group top">
+                <a href="../index/index.html" class="nav-item">
+                    <img src="../img/icon_home-removebg-preview.png" alt="Home" class="nav-icon">
+                    <p class="nav-desc">메인 화면</p>
+                </a>
+                <a href="../management/management.html" class="nav-item">
+                    <img src="../img/icon_file-removebg-preview.png" alt="File" class="nav-icon">
+                    <p class="nav-desc">파일 관리</p>
+                </a>
+                <a href="../message/message.html" class="nav-item active">
+                    <img src="../img/icon_message-removebg-preview.png" alt="Messages" class="nav-icon">
+                    <p class="nav-desc">메시지방</p>
+                </a>
+            </div>
+            <div class="nav-group bottom">
+                <div class="nav-item"><img src="../img/icon_profile-removebg-preview.png" alt="Profile"
+                        class="nav-icon">
+                    <p class="nav-desc">프로필</p>
                 </div>
-                <div class="nav-group bottom">
-                    <div class="nav-item"><img src="../img/icon_profile.png" alt="Profile" class="nav-icon"><p class="nav-desc">프로필</p></div>
-                    <div class="nav-item"><img src="../img/icon_settings.png" alt="Settings" class="nav-icon"><p class="nav-desc">설정</p></div>
+                <div class="nav-item"><img src="../img/icon_settings-removebg-preview.png" alt="Settings"
+                        class="nav-icon">
+                    <p class="nav-desc">설정</p>
                 </div>
-            </nav>
+            </div>
+        </nav>
 
-            <main class="main-content">
-                <header class="content-header">
-                    <h2>관리</h2>
-                </header>
+        <main class="main-content">
+            <header class="content-header">
+                <h2>관리</h2>
+            </header>
 
-                <div class="file-table-container">
-                    <table class="file-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 100px;"><input type="checkbox" id="selectAll"> 모두선택</th>
-                                <th>파일명</th>
-                                <th>날짜</th>
-                                <th>업로더</th>
-                            </tr>
-                        </thead>
-                        <tbody id="fileListBody">
-                            <tr>
-                                <td><input type="checkbox" class="file-check"></td>
-                                <td><span class="file-icon">PDF</span> 오승원 화보집.pdf</td>
-                                <td>2025.11.06</td>
-                                <td>김영웅</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="file-check" checked></td>
-                                <td><span class="file-icon">PNG</span> 오승원 증명사진.png</td>
-                                <td>2025.12.11</td>
-                                <td>오승원</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <div class="file-table-container">
+                <table class="file-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 100px;"><input type="checkbox" id="selectAll"> 모두선택</th>
+                            <th>파일명</th>
+                            <th>날짜</th>
+                            <th>업로더</th>
+                        </tr>
+                    </thead>
+                    <tbody id="fileListBody">
+                        <tr>
+                            <td><input type="checkbox" class="file-check"></td>
+                            <td><span class="file-icon">PDF</span> 오승원 화보집.pdf</td>
+                            <td>2025.11.06</td>
+                            <td>김영웅</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="file-check" checked></td>
+                            <td><span class="file-icon">PNG</span> 오승원 증명사진.png</td>
+                            <td>2025.12.11</td>
+                            <td>오승원</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <footer class="table-footer">
+                <input type="file" id="hiddenFileInput" hidden>
+                <button class="action-btn" id="uploadBtn">업로드</button>
+                <div class="right-btns">
+                    <button class="action-btn" id="deleteBtn">선택삭제</button>
+                    <button class="action-btn primary">다운로드</button>
                 </div>
+            </footer>
+        </main>
+    </div>
 
-                <footer class="table-footer">
-                    <input type="file" id="hiddenFileInput" hidden>
-                    <button class="action-btn" id="uploadBtn">업로드</button>
-                    <div class="right-btns">
-                        <button class="action-btn" id="deleteBtn">선택삭제</button>
-                        <button class="action-btn primary">다운로드</button>
-                    </div>
-                </footer>
-            </main>
-        </div>
+    <script src="management.js"></script>
+</body>
 
-        <script src="management.js"></script>
-    </body>
-    </html>
+</html>

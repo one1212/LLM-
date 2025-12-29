@@ -4,6 +4,8 @@ const hiddenInput = document.getElementById('hiddenFileInput');
 const fileListBody = document.getElementById('fileListBody');
 const deleteBtn = document.getElementById('deleteBtn');
 const selectAll = document.getElementById('selectAll');
+// 6. 선택 다운로드 기능
+const downloadBtn = document.querySelector('.action-btn.primary');
 
 // 1. 업로드 버튼 클릭 시 파일 창 열기 (클릭 피드백은 CSS :active로 처리)
 uploadBtn.addEventListener('click', () => hiddenInput.click());
@@ -27,6 +29,10 @@ hiddenInput.addEventListener('change', (e) => {
     
     fileListBody.prepend(tr);
     hiddenInput.value = ''; // 파일 선택 초기화
+
+    if (selectAll.checked) {
+    tr.style.backgroundColor = '#f0f7ff';
+}
 });
 
 // 3. 선택 삭제 (삭제 시 확인창 및 파란색 테마 유지)
@@ -73,4 +79,36 @@ fileListBody.addEventListener('change', (e) => {
             tr.style.backgroundColor = 'transparent';
         }
     }
+});
+
+//6. 선택 다운로드 기능
+downloadBtn.addEventListener('click', () => {
+    // 체크된 모든 체크박스 가져오기
+    const checked = document.querySelectorAll('.file-check:checked');
+
+    if (checked.length === 0) {
+        alert("다운로드할 파일을 선택해주세요.");
+        return;
+    }
+
+    // 선택된 각 행을 돌며 파일 다운로드 실행
+    checked.forEach((item, index) => {
+        const tr = item.closest('tr');
+        // 두 번째 <td> 안의 텍스트에서 파일명만 추출
+        const fileName = tr.cells[1].innerText.replace(/^(PDF|PNG|JPG|TXT|ZIP)\s/, '').trim();
+        
+        // 실제 환경에서는 파일의 URL이 필요합니다.
+        // 여기서는 예시로 파일명을 이용한 경로를 생성합니다.
+        const fileUrl = `../downloads/${fileName}`; 
+
+        // 브라우저의 다중 다운로드 차단을 방지하기 위해 약간의 시차를 두고 실행
+        setTimeout(() => {
+            const link = document.createElement('a');
+            link.href = fileUrl;
+            link.download = fileName; // 다운로드될 파일명 설정
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }, index * 300); // 0.3초 간격
+    });
 });

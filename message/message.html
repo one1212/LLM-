@@ -1,84 +1,118 @@
-    <!DOCTYPE html>
-    <html lang="ko">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Chat Interface</title>
-        <link rel="stylesheet" href="message.css">
-        <script src="message.js" defer></script>
-    </head>
-    <body>
-        <input type="checkbox" id="explorer-toggle" hidden>
-        <input type="file" id="real-file-input" hidden onchange="handleFileSelect(this)">
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Interface</title>
+    <script>
+        (function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <link rel="stylesheet" href="message.css">
+    <script src="message.js" defer></script>
+</head>
+<body>
+    <input type="checkbox" id="explorer-toggle" hidden>
+    <input type="file" id="real-file-input" hidden onchange="handleFileSelect(this)">
 
-        <div class="app-container">
-            <nav class="sidebar">
-                <div class="nav-group top">
-                    <a href="../index/index.html" class="nav-item">
-                        <img src="../img/icon_home.png" alt="Home" class="nav-icon">
-                        <p class="nav-desc">메인 화면</p>
-                    </a>
-                    <a href="../management/management.html" class="nav-item">
-                        <img src="../img/icon_file.png" alt="File" class="nav-icon">
-                        <p class="nav-desc">파일 관리</p>
-                    </a>
-                    <a href="message.html" class="nav-item active">
-                        <img src="../img/icon_message.png" alt="Messages" class="nav-icon">
-                        <p class="nav-desc">메시지방</p>
-                    </a>
+    <div class="app-container">
+        <nav class="sidebar">
+            <div class="nav-group top">
+                <a href="../index/index.html" class="nav-item">
+                    <img src="../img/icon_home-removebg-preview.png" alt="Home" class="nav-icon">
+                    <p class="nav-desc">메인 화면</p>
+                </a>
+                <a href="../management/management.html" class="nav-item">
+                    <img src="../img/icon_file-removebg-preview.png" alt="File" class="nav-icon">
+                    <p class="nav-desc">파일 관리</p>
+                </a>
+                <a href="message.html" class="nav-item active">
+                    <img src="../img/icon_message-removebg-preview.png" alt="Messages" class="nav-icon">
+                    <p class="nav-desc">메시지방</p>
+                </a>
+            </div>
+            <div class="nav-group bottom">
+                <div class="nav-item"><img src="../img/icon_profile-removebg-preview.png" alt="Profile" class="nav-icon">
+                    <p class="nav-desc">프로필</p>
                 </div>
-                <div class="nav-group bottom">
-                    <div class="nav-item"><img src="../img/icon_profile.png" alt="Profile" class="nav-icon"><p class="nav-desc">프로필</p></div>
-                    <div class="nav-item"><img src="../img/icon_settings.png" alt="Settings" class="nav-icon"><p class="nav-desc">설정</p></div>
+                <div class="nav-item"><img src="../img/icon_settings-removebg-preview.png" alt="Settings" class="nav-icon">
+                    <p class="nav-desc">설정</p>
                 </div>
-            </nav>
-            
-            <main class="chat-area">
-                <header class="chat-header">
-                    <label for="explorer-toggle" class="hamburger-menu">☰</label>
-                    ✨ 무엇을 도와드릴까요?
-                </header>
-                
-                <div class="chat-messages" id="chat-messages"></div>
+            </div>
+        </nav>
 
-                <footer class="bottom-controls">
-                    <div class="input-container">
-                        <button class="icon-btn" type="button" onclick="document.getElementById('real-file-input').click()">＋</button>
-                        <label for="real-file-input" class="icon-btn" style="cursor: pointer;">📁</label>
-                        <input type="text" id="chat-input" placeholder="메시지를 입력하세요..." class="chat-input">
-                        <button id="send-btn" class="icon-btn send">▶</button>
+        <main class="chat-area">
+            <header class="chat-header">
+                <label for="explorer-toggle" class="hamburger-menu">☰</label>
+                ✨ 무엇을 도와드릴까요?
+            </header>
+
+            <div class="chat-messages" id="chat-messages">
+                <div class="message right">
+                    <div class="bubble">안녕하세요! 메시지 정렬과 글자 깨짐을 수정했습니다.</div>
+                    <div class="profile-group">
+                        <div class="avatar"></div>
+                        <input type="checkbox" class="custom-checkbox">
                     </div>
-                    <button type="button" class="prompt-action-btn" onclick="openPrompt()">
-                        선택한 메시지로 프롬프트 생성하기 <span class="arrow">→</span>
+                </div>
+            </div>
+
+            <footer class="bottom-controls">
+                <div id="file-preview-container" class="file-preview-container"></div>
+                <div class="input-container">
+                    <button class="icon-btn" onclick="document.getElementById('file-input').click();">
+                        <span class="material-icons">📁</span>
                     </button>
-                </footer>
-            </main>
-
-            <aside id="prompt-aside" class="prompt-panel">
-                <header class="panel-header">
-                    <div class="header-left">생성된 프롬프트 🔄</div>
-                    <button class="close-btn" onclick="closePrompt()">✕</button>
-                </header>
-                <div class="panel-content">
-                    <div class="prompt-editor" id="prompt-editor-box" contenteditable="true">대화 내용이 이곳에 프롬프트로 변환됩니다.</div>
-                    <div class="action-row">
-                        <button class="white-btn">📋 복사</button>
-                        <button class="white-btn">📥 저장</button>
-                    </div>
-                    <div class="settings-group">
-                        <label>응답 모델 선택</label>
-                        <select class="model-select">
-                            <option>✨ Gemini Pro 2.5</option>
-                            <option>GPT-4o</option>
-                            <option>기가 현수</option>
-                        </select>
-                    </div>
-                    <div class="final-row">
-                        <label class="rag-label"><input type="checkbox"> RAG 사용</label>
-                        <button class="llm-call-btn">LLM 호출</button>
-                    </div>
+                    <input type="file" id="file-input" style="display:none;" onchange="handleFilePreview(this)">
+                    <input type="text" id="chat-input" class="chat-input" placeholder="메시지를 입력하세요...">
+                    <button id="send-btn" class="icon-btn send">
+                        <span class="material-icons">▶</span>
+                    </button>
                 </div>
-            </aside>
-        </div>
-    </body>
-    </html>
+                <button class="prompt-action-btn" onclick="openPrompt()">
+                    선택한 메시지로 프롬프트 생성하기 →
+                </button>
+            </footer>
+        </main>
+
+        <aside id="prompt-aside" class="prompt-panel">
+            <div id="resize-handle" class="resize-handle"></div>
+            <header class="panel-header">
+                <div class="header-left">생성된 프롬프트 🔄</div>
+                <button class="close-btn" onclick="closePrompt()">✕</button>
+            </header>
+            <div class="panel-content">
+                <div class="prompt-editor" id="prompt-editor-box" contenteditable="true">대화 내용이 이곳에 프롬프트로 변환됩니다.</div>
+                
+                <div class="action-row">
+                    <button class="btn-copy" onclick="copyPrompt()">
+                        <span class="btn-icon">📋</span> 복사
+                    </button>
+                    <button class="white-btn">
+                        <span class="btn-icon">📥</span> 저장
+                    </button>
+                </div>
+
+                <div class="settings-group">
+                    <label>응답 모델 선택</label>
+                    <select class="model-select">
+                        <option>✨ Gemini Pro 2.5</option>
+                        <option>GPT-4o</option>
+                        <option>기가 현수</option>
+                    </select>
+                </div>
+                <div class="final-row">
+                    <label class="rag-label"><input type="checkbox"> RAG 사용</label>
+                    <button class="llm-call-btn">LLM 호출</button>
+                </div>
+            </div>
+        </aside>
+    </div>
+</body>
+</html>

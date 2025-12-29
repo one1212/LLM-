@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,27 +9,34 @@
     <link rel="stylesheet" href="index.css">
 
 </head>
+
 <body>
+
     <div class="app-container">
         <nav class="sidebar">
             <div class="nav-group top">
                 <a href="index.html" class="nav-item active">
-                    <img src="../img/icon_home.png" alt="Home" class="nav-icon">
+                    <img src="../img/icon_home-removebg-preview.png" alt="Home" class="nav-icon">
                 </a>
                 <a href="../message/message.html" class="nav-item">
-                    <img src="../img/icon_message.png" alt="Messages" class="nav-icon">
+                    <img src="../img/icon_message-removebg-preview.png" alt="Messages" class="nav-icon">
                     <span class="badge">3</span>
                 </a>
             </div>
-            
+
             <div class="nav-group bottom">
                 <div class="nav-item">
-                    <img src="../img/icon_profile.png" alt="Profile" class="nav-icon">
+                    <img src="../img/icon_profile-removebg-preview.png" alt="Profile" class="nav-icon">
                 </div>
                 <div class="nav-item">
-                    <img src="../img/icon_settings.png" alt="Settings" class="nav-icon">
+                    <img src="../img/icon_settings-removebg-preview.png" alt="Settings" class="nav-icon">
                 </div>
+                <li id="theme-toggle" class="menu-item-has-sub">
+                    <i class="fa-solid fa-circle-half-stroke"></i> 테마
+                    <i class="fa-solid fa-chevron-right arrow"></i>
+                </li>
             </div>
+
         </nav>
 
         <main class="main-content">
@@ -37,7 +45,7 @@
                     <button class="login-btn">로그인</button>
                 </a>
             </div>
-            
+
             <div class="welcome-container">
                 <h1 class="welcome-text">
                     <span class="gradient-text">✨ 안녕하세요</span><br>무엇을 도와드릴까요?
@@ -50,7 +58,8 @@
                     <button class="plus-icon-btn"><i class="fa-solid fa-plus"></i></button>
                 </div>
                 <div class="card-grid">
-                    <a href="../message/message.html" class="chat-card new-chat" style="text-decoration: none; color: inherit;">
+                    <a href="../message/message.html" class="chat-card new-chat"
+                        style="text-decoration: none; color: inherit;">
                         <i class="fa-solid fa-plus"></i>
                         <span>새 대화 시작</span>
                     </a>
@@ -72,16 +81,17 @@
     <script>
         // 로그인 폼 관련 로직 (필요 시 유지)
         const loginForm = document.querySelector('.login-form');
-        if(loginForm) {
-            loginForm.addEventListener('submit', function(e) {
+        if (loginForm) {
+            loginForm.addEventListener('submit', function (e) {
                 e.preventDefault();
                 const email = document.querySelector('input[type="email"]').value;
-                if(email) {
-                       alert(email + "님, 환영합니다!");
+                if (email) {
+                    alert(email + "님, 환영합니다!");
                     window.location.href = "index.html";
                 }
             });
         }
     </script>
 </body>
+
 </html>
