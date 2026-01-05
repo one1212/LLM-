@@ -402,3 +402,173 @@ tr.analyzing {
 
 .modal-body::-webkit-scrollbar { width: 5px; }
 .modal-body::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+
+/* =========================================
+   추가: Drag & Drop 및 업로드 리스트 스타일
+   ========================================= */
+
+/* 1. 드롭 존 영역 */
+.upload-drop-zone {
+    border: 2px dashed #334155; /* 기본은 차분한 경계선 */
+    border-radius: 24px;
+    background: rgba(30, 41, 59, 0.3);
+    margin: 20px 0;
+    padding: 40px;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* 마우스를 올렸을 때(드래그 중)의 민트색 강조 효과 */
+.upload-drop-zone.drag-over {
+    background: rgba(94, 234, 212, 0.1);
+    border-color: #5eead4;
+    transform: scale(1.01);
+    box-shadow: 0 0 20px rgba(94, 234, 212, 0.15);
+}
+
+.drop-zone-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.drop-icon {
+    font-size: 3rem;
+    color: #5eead4;
+    margin-bottom: 10px;
+}
+
+.drop-zone-content p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #e5e7eb;
+}
+
+.drop-sub-text {
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+/* 2. 업로드 대기 목록 컨테이너 */
+.upload-queue-container {
+    background: #1e1e1e;
+    border: 1px solid #334155;
+    border-radius: 24px;
+    padding: 24px;
+    margin-bottom: 30px;
+    animation: modalSlideUp 0.3s ease-out;
+}
+
+.queue-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #2d2d2d;
+}
+
+.queue-header h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #e5e7eb;
+}
+
+#fileCount {
+    color: #5eead4;
+}
+
+.queue-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* 버튼 스타일 확장 */
+.action-btn.sm {
+    padding: 8px 16px;
+    font-size: 13px;
+    border-radius: 10px;
+}
+
+.action-btn.primary {
+    background: #5eead4;
+    color: #121212;
+    border: none;
+    font-weight: 700;
+}
+
+.action-btn.cancel {
+    background: #2d2d2d;
+    color: #f87171;
+    border: 1px solid #450a0a;
+}
+
+/* 3. 파일 리스트 아이템 */
+.file-queue-list {
+    list-style: none;
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.file-queue-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: #121212;
+    border: 1px solid #2d2d2d;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+}
+
+.file-queue-item:hover {
+    border-color: #5eead4;
+}
+
+.file-queue-item span {
+    color: #cbd5e1;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.file-queue-item i {
+    color: #5eead4;
+}
+
+.remove-file-btn {
+    background: transparent;
+    border: none;
+    color: #64748b;
+    cursor: pointer;
+    font-size: 18px;
+    transition: color 0.2s;
+}
+
+.remove-file-btn:hover {
+    color: #f87171;
+}
+
+/* 스크롤바 커스텀 (모달 스타일과 통일) */
+.file-queue-list::-webkit-scrollbar { width: 5px; }
+.file-queue-list::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+
+/* 스켈레톤 애니메이션 */
+@keyframes skeleton-shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.skeleton-processing {
+    background: linear-gradient(90deg, #1e1e1e 25%, #2d2d2d 50%, #1e1e1e 75%);
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s infinite;
+}

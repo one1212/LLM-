@@ -4,14 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Dashboard</title>
+    <title>AI Dashboard - Seasonal Themes</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="index.css">
-
 </head>
 
 <body>
-
     <div class="app-container">
         <nav class="sidebar">
             <div class="nav-group top">
@@ -28,18 +26,54 @@
                 <div class="nav-item">
                     <img src="../img/icon_profile-removebg-preview.png" alt="Profile" class="nav-icon">
                 </div>
-                <div class="nav-item">
-                    <img src="../img/icon_settings-removebg-preview.png" alt="Settings" class="nav-icon">
-                </div>
-                <li id="theme-toggle" class="menu-item-has-sub">
-                    <i class="fa-solid fa-circle-half-stroke"></i> 테마
-                    <i class="fa-solid fa-chevron-right arrow"></i>
-                </li>
-            </div>
 
+                <div class="nav-item settings-wrapper">
+                    <img src="../img/icon_settings-removebg-preview.png" alt="Settings" class="nav-icon"
+                        id="settings-btn" style="cursor: pointer;">
+
+                    <div class="settings-dropdown" id="settings-menu">
+                        <ul class="menu-list">
+                            <li id="theme-toggle-btn">
+                                <div class="menu-item-header">
+                                    <i class="fa-solid fa-moon"></i>
+                                    <span>다크모드 전환</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="menu-item-header">
+                                    <i class="fa-solid fa-cloud-sun"></i>
+                                    <span>계절 테마 변경</span>
+                                    <i class="fa-solid fa-chevron-right arrow"></i>
+                                </div>
+                                <div class="color-palette">
+                                    <div class="color-dot" style="background-color: #ffb7c5;" title="빨강"></div>
+                                    <div class="color-dot" style="background-color: #7dd3fc;" title="파랑"></div>
+                                    <div class="color-dot" style="background-color: #fb923c;" title="주황"></div>
+                                    <div class="color-dot" style="background-color: #1e293b;" title="남색"></div>
+                                    <div class="color-dot dot-reset" title="초기화">
+                                        <i class="fa-solid fa-rotate-left"></i>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="menu-item-header">
+                                    <i class="fa-solid fa-circle-question"></i>
+                                    <span>도움말</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </nav>
 
-        <main class="main-content">
+        <main class="main-content" id="main-content">
+            <div class="sun"></div>
+            <div class="ship-container">
+                <div class="smoke"></div>
+                <div class="ship">🚢</div>
+            </div>
+
             <div class="top-bar">
                 <a href="../login/login.html" style="text-decoration: none;">
                     <button class="login-btn">로그인</button>
@@ -48,50 +82,28 @@
 
             <div class="welcome-container">
                 <h1 class="welcome-text">
-                    <span class="gradient-text">✨ 안녕하세요</span><br>무엇을 도와드릴까요?
+                    <span class="gradient-text">✨ 안녕하세요</span><br>
+                    어떤 계절의 도움을 드릴까요?
                 </h1>
             </div>
 
             <section class="chat-section">
                 <div class="chat-header">
-                    <span class="title">내 채팅</span>
+                    <span class="title">내 최근 대화</span>
                     <button class="plus-icon-btn"><i class="fa-solid fa-plus"></i></button>
                 </div>
                 <div class="card-grid">
-                    <a href="../message/message.html" class="chat-card new-chat"
-                        style="text-decoration: none; color: inherit;">
+                    <a href="../message/message.html" class="chat-card new-chat" style="text-decoration: none;">
                         <i class="fa-solid fa-plus"></i>
                         <span>새 대화 시작</span>
                     </a>
 
-                    <a href="../message/message.html" class="chat-card" style="text-decoration: none; color: inherit;">
-                        <p class="card-info">이전 대화 기록 1...</p>
-                    </a>
-
-                    <a href="../message/message.html" class="chat-card" style="text-decoration: none; color: inherit;">
-                        <p class="card-info">이전 대화 기록 2...</p>
-                    </a>
                 </div>
             </section>
         </main>
     </div>
 
     <script src="index.js"></script>
-
-    <script>
-        // 로그인 폼 관련 로직 (필요 시 유지)
-        const loginForm = document.querySelector('.login-form');
-        if (loginForm) {
-            loginForm.addEventListener('submit', function (e) {
-                e.preventDefault();
-                const email = document.querySelector('input[type="email"]').value;
-                if (email) {
-                    alert(email + "님, 환영합니다!");
-                    window.location.href = "index.html";
-                }
-            });
-        }
-    </script>
 </body>
 
 </html>

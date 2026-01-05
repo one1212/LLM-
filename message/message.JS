@@ -14,9 +14,13 @@ function sendMessage() {
     const text = chatInput.value.trim();
     if (!text && !selectedFile) return;
 
+    // 수정: selectedFile 객체 자체를 포함하여 전달 (다운로드 URL 생성을 위함)
     const messageData = {
         text: text,
-        file: selectedFile ? { name: selectedFile.name } : null
+        file: selectedFile ? { 
+            name: selectedFile.name, 
+            blob: selectedFile // 파일 데이터 원본 추가
+        } : null
     };
 
     renderCombinedMessage(messageData);
@@ -32,18 +36,29 @@ function renderCombinedMessage(data) {
     const messageDiv = document.createElement('div');
     messageDiv.className = 'message right';
 
-    // 파일 레이아웃
-    let fileHtml = data.file ? `
-        <div class="file-attachment" style="display: flex; align-items: center; gap: 8px; background: #f8fafc; padding: 10px; border-radius: 10px; margin-bottom: 8px; border: 1px solid #f1f5f9; color: #475569; font-size: 14px;">
-            <span class="material-icons" style="color: #3b82f6; font-size: 18px;">description</span>
-            <span class="file-name">${data.file.name}</span>
-        </div>` : "";
+    // 파일 레이아웃 (다운로드 링크 추가)
+    let fileHtml = "";
+    if (data.file) {
+        // 추가: 브라우저 메모리에 임시 다운로드 경로 생성
+        const downloadUrl = URL.createObjectURL(data.file.blob);
+        
+        fileHtml = `
+            <div class="file-attachment" style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 10px; border-radius: 10px; margin-bottom: 8px; border: 1px solid #f1f5f9; color: #475569; font-size: 14px; min-width: 200px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span class="material-icons" style="color: #3b82f6; font-size: 18px;">description</span>
+                    <span class="file-name">${data.file.name}</span>
+                </div>
+                <a href="${downloadUrl}" download="${data.file.name}" style="color: #64748b; text-decoration: none; display: flex; align-items: center;">
+                    <span class="material-icons" style="font-size: 20px; cursor: pointer;">download</span>
+                </a>
+            </div>`;
+    }
 
-    // 텍스트 레이아웃 (반드시 .text-content 클래스 부여)
+    // 텍스트 레이아웃
     let textHtml = data.text ? `<div class="text-content" style="word-break: break-all; line-height: 1.5;">${data.text}</div>` : "";
 
     messageDiv.innerHTML = `
-        <div class="bubble combined">${fileHtml}${textHtml}</div>
+        <div class="bubble combined" style="max-width: 80%;">${fileHtml}${textHtml}</div>
         <div class="profile-group">
             <div class="avatar"></div>
             <input type="checkbox" id="check-${msgId}" class="custom-checkbox message-selector">
@@ -56,7 +71,7 @@ function renderCombinedMessage(data) {
 function handleFilePreview(input) {
     const file = input.files[0];
     if (!file) return;
-    selectedFile = file;
+    selectedFile = file; // 파일 객체 저장
     if (filePreviewContainer) {
         filePreviewContainer.innerHTML = `
             <div class="file-chip" style="display:inline-flex; align-items:center; background:#eff6ff; padding:5px 10px; border-radius:15px; font-size:13px;">
@@ -72,7 +87,7 @@ function removeFilePreview() {
     if (filePreviewContainer) filePreviewContainer.innerHTML = "";
 }
 
-// 4. 패널 제어 및 로딩 (메시지 수집 로직 개선)
+// 4. 패널 제어 및 로딩 (메시지 수집 로직)
 function openPrompt() {
     const actionBtn = document.querySelector('.prompt-action-btn');
     if (!actionBtn) return;
@@ -88,19 +103,17 @@ function openPrompt() {
         selectedMessages.forEach((checkbox) => {
             const messageDiv = checkbox.closest('.message');
 
-            // 파일명 추출
             const fileName = messageDiv.querySelector('.file-name');
             if (fileName) {
                 combinedText += `[첨부 파일: ${fileName.innerText.trim()}]\n`;
             }
 
-            // 순수 텍스트 내용만 추출 (.text-content만 타겟팅)
             const textContent = messageDiv.querySelector('.text-content');
             if (textContent) {
                 combinedText += textContent.innerText.trim() + "\n";
             }
 
-            combinedText += "\n"; // 메시지 간 간격
+            combinedText += "\n";
         });
 
         if (promptEditor) {
@@ -124,18 +137,17 @@ function closePrompt() {
     }
 }
 
-// 1. 클립보드 복사 함수 (입력창 내용 우선 복사)
+// 5. 클립보드 복사 함수
 function copyPrompt() {
     const chatInput = document.getElementById('chat-input');
     const promptEditor = document.getElementById('prompt-editor-box');
 
-    // 복사할 대상 결정: 입력창에 글이 있으면 입력창 내용을, 없으면 프롬프트 에디터 내용을 복사
     let textToCopy = "";
 
     if (chatInput && chatInput.value.trim() !== "") {
         textToCopy = chatInput.value.trim();
     } else if (promptEditor) {
-        textToCopy = promptEditor.innerText.trim(); // ← 여기서 코드가 복사됨!
+        textToCopy = promptEditor.innerText.trim();
     }
 
     if (!textToCopy || textToCopy.includes("선택된 메시지가 없습니다")) {
@@ -143,7 +155,6 @@ function copyPrompt() {
         return;
     }
 
-    // 임시 textarea를 이용한 확실한 복사 방식
     const tempTextArea = document.createElement("textarea");
     tempTextArea.value = textToCopy;
     tempTextArea.style.position = "fixed";
@@ -155,7 +166,6 @@ function copyPrompt() {
     try {
         const successful = document.execCommand('copy');
         if (successful) {
-            // 버튼 시각적 피드백
             const copyBtn = document.querySelector('.btn-copy');
             if (copyBtn) {
                 const originalHtml = copyBtn.innerHTML;
@@ -174,7 +184,8 @@ function copyPrompt() {
         document.body.removeChild(tempTextArea);
     }
 }
-// 6. 드래그 너비 조절 (생략 없이 유지)
+
+// 6. 드래그 너비 조절
 const handle = document.getElementById('resize-handle');
 let isResizing = false;
 if (handle && promptAside) {

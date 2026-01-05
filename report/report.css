@@ -1,0 +1,43 @@
+/* --- 이전 코드 유지 및 보완 --- */
+:root {
+    --bg-dark: #121212;
+    --bg-card: #1e1e1e;
+    --accent-mint: #5eead4;
+    --accent-purple: #a855f7;
+    --text-main: #e5e7eb;
+    --text-muted: #94a3b8;
+    --border-color: #334155;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background-color: var(--bg-dark); color: var(--text-main); font-family: 'Pretendard', sans-serif; }
+
+.report-page-container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+
+/* 헤더 및 요약 */
+.report-header { margin-bottom: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+.category-tag { background: rgba(168, 85, 247, 0.1); color: var(--accent-purple); padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+.summary-card { background: var(--bg-card); padding: 20px; border-radius: 16px; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 15px; margin-bottom: 25px; }
+
+/* 가변형 테이블 고도화 */
+.table-container { 
+    background: var(--bg-card); 
+    border-radius: 16px; 
+    border: 1px solid var(--border-color); 
+    overflow: auto; /* 데이터가 많을 때 스크롤 발생 */
+    max-height: 550px; 
+}
+.analysis-table { width: 100%; border-collapse: collapse; min-width: 800px; }
+.analysis-table thead { position: sticky; top: 0; z-index: 5; background: #1a1a1a; }
+.analysis-table th { padding: 15px 20px; text-align: left; font-size: 13px; color: var(--text-muted); border-bottom: 2px solid var(--border-color); }
+.analysis-table td { padding: 15px 20px; border-bottom: 1px solid #2d2d2d; font-size: 14px; }
+
+/* 상태 색상 */
+.status-o { color: var(--accent-mint); font-weight: bold; }
+.status-x { color: #f87171; font-weight: bold; }
+
+/* 출처(Citation) 영역 (이미지 535686.png 반영) */
+.citation-footer { margin-top: 30px; padding: 20px; background: rgba(168, 85, 247, 0.05); border-radius: 12px; border-left: 4px solid var(--accent-purple); }
+.citation-wrapper { display: flex; align-items: center; gap: 10px; }
+.citation-links { display: flex; gap: 10px; flex-wrap: wrap; }
+.cite-item { color: var(--accent-purple); font-size: 13px; text-decoration: underline; cursor: pointer; }

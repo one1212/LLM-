@@ -1,7 +1,7 @@
-/* --- [추가] 다크모드 변수 설정 --- */
+/* --- [1. 테마 및 계절별 변수 설정] --- */
 :root {
     --bg-app: #ffffff;
-    --bg-body: #f0f2f5;
+    --bg-body: #f0f2f5;      /* 바깥 화면 배경 */
     --bg-sidebar: #f8fafc;
     --bg-card: #f8fafc;
     --bg-card-hover: #ffffff;
@@ -9,301 +9,428 @@
     --text-sub: #475569;
     --border-color: #e2e8f0;
     --login-btn-bg: #ffffff;
+    --bg-menu: #1e1e1e;
+    --bg-menu-hover: #2d2d2d;
+    --theme-bg: var(--bg-app); 
+    --gradient-text: #5eead4;   
 }
 
 [data-theme="dark"] {
-    --bg-app: #171717;      /* 메인 컨테이너 배경 */
-    --bg-body: #0a0a0a;     /* 전체 바닥 배경 */
-    --bg-sidebar: #1e1e1e;  /* 사이드바 배경 */
-    --bg-card: #262626;     /* 카드 배경 */
+    --bg-app: #171717;
+    --bg-body: #0a0a0a;      /* 다크모드 바깥 화면 */
+    --bg-sidebar: #1e1e1e;
+    --bg-card: #262626;
     --bg-card-hover: #2d2d2d;
-    --text-main: #f5f5f5;   /* 메인 글자색 */
-    --text-sub: #a3a3a3;    /* 서브 글자색 */
-    --border-color: #333333; /* 테두리 색상 */
+    --text-main: #f5f5f5;
+    --text-sub: #a3a3a3;
+    --border-color: #333333;
     --login-btn-bg: #262626;
 }
 
-/* 1. 기본 초기화 및 폰트 설정 */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Pretendard', -apple-system, sans-serif;
+/* --- [2. 기본 초기화 및 레이아웃] --- */
+* { 
+    margin: 0; padding: 0; box-sizing: border-box; 
+    font-family: 'Pretendard', -apple-system, sans-serif; 
 }
 
 body {
-    /* 변수 적용 */
-    background-color: var(--bg-body); 
+    background-color: var(--bg-body); /* 바깥 화면 색상 연동 */
     color: var(--text-sub);
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: background-color 0.3s ease;
-}
-
-/* 2. 전체 레이아웃 컨테이너 */
-.app-container {
-    display: flex;
-    width: 98vw;
-    height: 96vh;
-    /* 변수 적용 */
-    background-color: var(--bg-app);
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    display: flex; justify-content: center; align-items: center;
+    transition: all 0.5s ease;
     overflow: hidden;
-    transition: background-color 0.3s ease;
 }
 
-/* 3. 사이드바 */
+.app-container {
+    display: flex; width: 98vw; height: 96vh;
+    background-color: var(--bg-app); /* 안쪽 전체 배경색 */
+    border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    overflow: hidden; transition: background-color 0.5s ease;
+}
+
+/* --- [3. 사이드바 및 내비게이션] --- */
 .sidebar {
-    width: 75px;
-    min-width: 75px;
-    /* 변수 적용 */
+    width: 75px; min-width: 75px;
     background-color: var(--bg-sidebar);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 25px 0;
+    display: flex; flex-direction: column; justify-content: space-between;
+    align-items: center; padding: 25px 0;
     border-right: 1px solid var(--border-color);
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    transition: background-color 0.5s ease, border-color 0.5s ease;
 }
 
-.nav-group {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    width: 100%;
-    align-items: center;
-}
+.nav-group { display: flex; flex-direction: column; gap: 15px; width: 100%; align-items: center; }
 
-/* 4. 네비게이션 아이템 및 배지 설정 */
 .nav-item {
-    position: relative; 
-    width: 50px;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 14px;
-    text-decoration: none;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative; width: 50px; height: 50px;
+    display: flex; justify-content: center; align-items: center;
+    border-radius: 14px; text-decoration: none;
+    transition: background-color 0.2s ease; cursor: pointer;
 }
+.nav-item:hover, .nav-item.active { background-color: var(--border-color); }
 
-.nav-icon {
-    width: 32px;
-    height: 32px;
-    object-fit: contain;
-    border-radius: 8px;
-}
+.nav-icon { width: 32px; height: 32px; object-fit: contain; border-radius: 8px; }
 
 .badge {
-    position: absolute;
-    top: 5px;   
-    right: 5px;
-    background-color: #ff4d4d; 
-    color: white;
-    font-size: 10px;
-    font-weight: bold;
-    min-width: 18px;
-    height: 18px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* 변수 적용 */
-    border: 2px solid var(--bg-sidebar); 
-    padding: 0 4px;
+    position: absolute; top: 5px; right: 5px;
+    background-color: #ff4d4d; color: white;
+    font-size: 10px; font-weight: bold;
+    min-width: 18px; height: 18px;
+    border-radius: 10px; display: flex;
+    justify-content: center; align-items: center;
+    border: 2px solid var(--bg-sidebar); padding: 0 4px;
 }
 
-.nav-item:hover {
-    background-color: var(--border-color);
-    transform: translateY(-2px);
-}
-
-.nav-item.active {
-    background-color: var(--border-color);
-}
-
-/* 5. 메인 콘텐츠 영역 */
+/* --- [4. 메인 콘텐츠 영역] --- */
 .main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    /* 변수 적용 */
-    background-color: var(--bg-app);
-    position: relative;
-    overflow-y: auto;
-    transition: background-color 0.3s ease;
+    flex: 1; display: flex; flex-direction: column;
+    background-color: var(--bg-app); /* 홈 화면 하얀색 고정 문제 해결 */
+    position: relative; overflow-y: auto;
+    background-size: cover; background-position: center; background-repeat: no-repeat;
+    transition: background-color 0.5s ease; z-index: 1;
+}
+
+.main-content::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(255, 255, 255, 0.1); z-index: -1;
 }
 
 .top-bar {
-    width: 100%;
-    height: 70px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 0 40px;
+    width: 100%; height: 70px; display: flex;
+    justify-content: flex-end; align-items: center; padding: 0 40px;
 }
 
 .login-btn {
-    /* 변수 적용 */
-    background-color: var(--login-btn-bg);
-    color: var(--text-sub);
-    border: 1px solid var(--border-color);
-    padding: 8px 20px;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
+    background-color: var(--login-btn-bg); color: var(--text-sub);
+    border: 1px solid var(--border-color); padding: 8px 20px;
+    border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer;
 }
 
-.login-btn:hover {
-    background-color: var(--bg-sidebar);
-    border-color: var(--text-sub);
-}
+.welcome-container { margin-top: 50px; margin-bottom: 50px; text-align: center; }
+.welcome-text { font-size: 2.2rem; font-weight: 800; color: var(--text-main); line-height: 1.3; transition: color 0.3s; }
+.gradient-text { color: var(--gradient-text); display: inline-flex; align-items: center; gap: 10px; }
 
-/* 6. 중앙 인사말 섹션 */
-.welcome-container {
-    margin-top: 50px;
-    margin-bottom: 50px;
-    text-align: center;
-}
+/* --- [5. 채팅 카드 그리드] --- */
+.chat-section { width: 100%; max-width: 850px; margin: 0 auto; padding: 0 20px 40px 20px; }
+.chat-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+.chat-header .title { font-size: 1rem; font-weight: 700; color: var(--text-sub); }
 
-.welcome-text {
-    font-size: 2.2rem;
-    font-weight: 800;
-    /* 변수 적용 */
-    color: var(--text-main);
-    line-height: 1.3;
-}
-
-.gradient-text {
-    color: #5eead4;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-}
-
-/* 7. 채팅 리스트 섹션 */
-.chat-section {
-    width: 100%;
-    max-width: 850px;
-    margin: 0 auto;
-    padding: 0 20px 40px 20px;
-}
-
-.chat-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.chat-header .title {
-    font-size: 1rem;
-    font-weight: 700;
-    /* 변수 적용 */
-    color: var(--text-sub);
-}
-
-.plus-icon-btn {
-    /* 변수 적용 */
-    background: var(--bg-card);
-    border: none;
-    color: var(--text-sub);
-    width: 24px;
-    height: 24px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 12px;
-}
-
-.card-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-}
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
 
 .chat-card {
-    /* 변수 적용 */
-    background-color: var(--bg-card);
-    height: 130px;
-    border-radius: 16px;
-    padding: 20px;
-    border: 1px solid var(--border-color);
-    transition: all 0.2s;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    background-color: var(--bg-card); height: 130px; border-radius: 16px;
+    padding: 20px; border: 1px solid var(--border-color); transition: all 0.3s;
+    display: flex; flex-direction: column; justify-content: flex-start;
 }
+.chat-card:hover { border-color: var(--gradient-text); background-color: var(--bg-card-hover); transform: translateY(-4px); }
+.chat-card.new-chat { background-color: var(--gradient-text); border: none; justify-content: center; align-items: center; color: white; }
 
-.chat-card:hover {
-    border-color: #5eead4;
-    /* 변수 적용 */
-    background-color: var(--bg-card-hover);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.03);
-    transform: translateY(-4px);
+/* --- [6. 계절별 스타일 및 색상 연동] --- */
+
+/* 봄 */
+body.theme-spring {
+    --bg-body: #fff0f3;
+    --bg-app: #fff5f7;
+    --bg-sidebar: #ffe4e8; 
+    --text-main: #db2777;
+    --gradient-text: #f472b6;
 }
-
-.chat-card.new-chat {
-    background-color: #5eead4;
-    border: none;
-    justify-content: center;
-    align-items: center;
-    color: white;
-}
-
-.chat-card.new-chat i {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-
-.chat-card.new-chat span {
-    font-size: 15px;
-    font-weight: 700;
-}
-
-.card-info {
-    /* 변수 적용 */
-    color: var(--text-sub);
-    font-size: 0.9rem;
-    font-weight: 500;
-    line-height: 1.5;
-}
-
-/* --- [추가] 설정 메뉴 팝업 스타일 --- */
-.settings-wrapper {
-    position: relative;
-}
-
-.settings-menu {
-    display: none;
+/* 🌸 봄 테마 전용: 고정된 벚꽃 장식 */
+/* 🌸 봄 테마: 화면 곳곳에 고정된 벚꽃들 */
+body.theme-spring .main-content::after {
+    content: '🌸';
     position: absolute;
-    bottom: 60px;
+    /* 기본 위치 (좌측 상단 어딘가) */
+    top: -10%; 
+    left: -10%; 
+    font-size: 25px;
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 5;
+
+    /* 📍 box-shadow를 이용해 여러 군데에 복제 */
+    /* 형식: 가로위치 세로위치 번짐정도 색상 */
+    text-shadow: 
+        15vw 25vh 2px rgba(255,182,193,0.8),  /* 좌측 상단 */
+        85vw 15vh 5px rgba(255,182,193,0.5),  /* 우측 상단 */
+        10vw 80vh 3px rgba(255,182,193,0.7),  /* 좌측 하단 */
+        90vw 85vh 1px rgba(255,182,193,0.9),  /* 우측 하단 */
+        50vw 10vh 4px rgba(255,182,193,0.4),  /* 중앙 상단 */
+        75vw 60vh 2px rgba(255,182,193,0.6),  /* 우측 중간 */
+        25vw 50vh 6px rgba(255,182,193,0.3);  /* 좌측 중간 */
+}
+
+/* 흩날리는 느낌을 위해 각각 살짝씩 회전 */
+body.theme-spring .main-content {
+    overflow: hidden; /* 꽃이 화면 밖으로 나가는 것 방지 */
+}
+
+/* 오른쪽 상단에도 하나 더 추가하고 싶을 때 */
+body.theme-spring::before {
+    content: '🌸';
+    position: fixed;
+    top: 40px;
+    right: 40px;
+    font-size: 30px;
+    opacity: 0.4;
+    transform: rotate(20deg);
+    z-index: 5;
+    pointer-events: none;
+}
+
+/* 여름 */
+b/* 여름 테마 기본 설정 */
+body.theme-summer {
+    --bg-body: #bae6fd;
+    --bg-app: #e0f2fe;
+    --bg-sidebar: #bae6fd; 
+    --text-main: #0369a1;
+    --gradient-text: #0ea5e9;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ☀️ 우측 상단에 뜨는 해 (main-content의 before 활용) */
+body.theme-summer .main-content::before {
+    content: '';
+    position: absolute;
+    top: 40px;
+    right: 60px;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, #ffeb3b 20%, #ff9800 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 40px #ff9800, 0 0 80px rgba(255, 152, 0, 0.4);
+    z-index: 1;
+    animation: sun-pulse 4s infinite alternate ease-in-out;
+}
+
+/* 🌊 바닥 파도 애니메이션 (기존 코드 유지 및 최적화) */
+body.theme-summer .main-content::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: -50%;
+    width: 200%;
+    height: 200px;
+    background: linear-gradient(to bottom, rgba(14, 165, 233, 0.6), #0369a1);
+    clip-path: polygon(
+        0% 50%, 10% 40%, 20% 50%, 30% 40%, 40% 50%, 
+        50% 40%, 60% 50%, 70% 40%, 80% 50%, 90% 40%, 
+        100% 50%, 100% 100%, 0% 100%
+    );
+    animation: strong-wave 3s infinite linear;
+    z-index: 3; /* 돌고래보다 위에 있게 하려면 3, 아래면 1 */
+}
+
+
+
+/* 🎬 애니메이션 정의 */
+
+/* 1. 해가 이글거리는 효과 */
+@keyframes sun-pulse {
+    from { transform: scale(1); opacity: 0.9; }
+    to { transform: scale(1.1); opacity: 1; box-shadow: 0 0 60px #ff9800; }
+}
+
+/* 2. 기존 파도 애니메이션 */
+@keyframes strong-wave {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(25%); }
+}
+/* 🚢 여름 테마: 지나가는 배 컨테이너 */
+.ship-container { display: none; }
+
+body.theme-summer .ship-container {
+    display: block;
+    position: absolute;
+    bottom: 60px; /* 파도 높이에 맞춰 조절 */
+    left: -200px;
+    z-index: 5;
+    animation: ship-move 15s infinite linear;
+}
+
+/* 배 본체 */
+.ship {
+    font-size: 80px;
+    transform: scaleX(-1); /* 배 방향 전환 (오른쪽으로 향하게) */
+}
+
+/* 💨 뿜어져 나오는 연기 */
+.smoke {
+    position: absolute;
+    top: 10px;
     left: 10px;
-    width: 240px;
-    background-color: #1e1e1e; /* 메뉴는 항상 다크하게 유지(이미지 기준) */
-    color: white;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    padding: 8px 0;
-    z-index: 1000;
+    width: 10px;
+    height: 10px;
+    background: rgba(200, 200, 200, 0.8);
+    border-radius: 50%;
+    box-shadow: 
+        -15px -10px 10px gray, 
+        -35px -15px 15px lightgray, 
+        -55px -10px 12px rgba(200, 200, 200, 0.5);
+    animation: smoke-puff 1.5s infinite;
+    z-index: 4;
 }
 
-.settings-menu.show { display: block; }
+/* 🎬 애니메이션 정의 */
 
-.settings-menu ul { list-style: none; }
-.settings-menu li {
-    padding: 12px 16px;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
+/* 1. 배가 화면을 가로지르는 움직임 */
+@keyframes ship-move {
+    0% { left: -200px; }
+    100% { left: 110%; }
 }
-.settings-menu li:hover { background-color: #2d2d2d; }
-.settings-menu li i { width: 25px; }
-.settings-menu hr { border: 0; border-top: 1px solid #333; margin: 4px 0; }
-.arrow { margin-left: auto; font-size: 10px; opacity: 0.5; }
+
+/* 2. 연기가 위로 솟으며 사라지는 효과 */
+@keyframes smoke-puff {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translate(-30px, -40px) scale(2.5);
+        opacity: 0;
+    }
+}
+
+
+
+/* 가을 */
+body.theme-autumn {
+    --bg-body: #fed7aa;
+    --bg-app: #fffaf3;
+    --bg-sidebar: #ffedd5;
+    --bg-card: #ffffff;
+    --text-main: #9a3412;
+    --gradient-text: #ea580c;
+    --border-color: #fed7aa;
+}
+body.theme-autumn .main-content {
+    background-image: url('dan.jpg');
+}
+body.theme-autumn .main-content::before {
+    background: rgba(210, 105, 30, 0.1);
+}
+
+/* ========================= */
+/* 겨울 (문제 수정 핵심) */
+/* ========================= */
+
+body.theme-winter { 
+    --bg-body: #020617;
+    --bg-app: #0f172a;
+    --bg-sidebar: #1e293b;
+    --bg-card: rgba(255, 255, 255, 0.05);
+    --text-main: #f8fafc; 
+    --text-sub: #cbd5e1;
+    --gradient-text: #ffffff;
+    --border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 하늘 배경만 담당 */
+body.theme-winter .main-content {
+    position: relative;
+    z-index: 1;
+    background-image: url('show.jpg');
+    background-size: cover;
+    background-position: center;
+    
+}
+
+/* ❄️ 겨울 – 눈 영역 */
+/* ❄️ 겨울 눈 영역 */
+body.theme-winter .main-content {
+    position: relative;
+    overflow: hidden; /* 사이드 완전 차단 */
+}
+
+/* ❄️ 눈 바닥 – main-content 전체 폭 */
+body.theme-winter .main-content::after {
+    content: '';
+    position: absolute;
+    bottom: -90px;
+
+    left: 0;
+    width: 100%;          /* ✅ 핵심 */
+    height: 500px;        /* 충분히 두껍게 */
+
+    background: #ffffff;
+    clip-path: polygon(
+        0% 55%, 8% 60%, 16% 58%, 24% 65%, 32% 60%,
+        40% 68%, 48% 62%, 56% 70%, 64% 65%, 72% 72%,
+        80% 68%, 88% 64%, 100% 70%,
+        100% 100%, 0% 100%
+    );
+
+    z-index: 10;
+    pointer-events: none;
+}
+
+
+/* ⛄ 눈사람 */
+body.theme-winter .snowman {
+    position: absolute;
+    bottom: 50px;      /* 값을 낮춰서 아래로 내림 */
+    left: 120px;
+    font-size: 90px;
+    z-index: 11;        /* ✅ 눈 바닥(z-index: 10)보다 낮게 설정 */
+    pointer-events: none;
+}
+
+
+
+/* --- [7. 설정 메뉴 및 팔레트] --- */
+.settings-wrapper { position: relative; }
+.settings-dropdown {
+    display: none; position: absolute; bottom: -10px; left: 70px; 
+    width: 280px; background-color: var(--bg-menu); color: #fff;
+    border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    padding: 8px 0; z-index: 1000;
+}
+.settings-dropdown.show { display: block !important; }
+
+.menu-list { list-style: none; }
+.menu-list li {
+    padding: 12px 16px; font-size: 14px;
+    display: flex; flex-direction: column; gap: 12px; cursor: pointer;
+}
+.menu-list li:hover { background-color: var(--bg-menu-hover); }
+
+.menu-item-header { display: flex; align-items: center; gap: 12px; width: 100%; }
+
+.color-palette { display: flex; flex-wrap: nowrap; gap: 8px; padding-left: 32px; padding-right: 12px; }
+
+.color-dot {
+    width: 22px; height: 22px; min-width: 22px;
+    border-radius: 50%; border: 2px solid rgba(255,255,255,0.1);
+    cursor: pointer; transition: transform 0.2s, border-color 0.2s;
+}
+.color-dot:hover { transform: scale(1.15); border-color: #fff; }
+.dot-reset { background-color: #444; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #ccc; }
+
+/* --- [8. 애니메이션 효과] --- */
+.effect-element {
+    position: fixed; top: -20px; z-index: 9999;
+    pointer-events: none; animation: fall linear forwards;
+}
+
+@keyframes fall {
+    0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(110vh) rotate(360deg) translateX(30px); opacity: 0; }
+}
+
+@keyframes rise {
+    0% { transform: translateY(0); opacity: 0; }
+    10% { opacity: 0.8; }
+    100% { transform: translateY(-110vh) translateX(20px); opacity: 0; }
+}
+
+@keyframes strong-wave {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(-5%) translateY(-5px); }
+    100% { transform: translateX(0); }
+}
+
+body.theme-summer .chat-section,
+body.theme-summer .welcome-container { position: relative; z-index: 5; }

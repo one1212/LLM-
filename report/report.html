@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>AI 분석 리포트</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../report/report.css">
+</head>
+<body data-theme="dark">
+    <div class="report-page-container">
+        <header class="report-header">
+            <div class="header-content">
+                <span id="analysisCategory" class="category-tag">-</span>
+                <h2 id="reportTitle">데이터 로딩 중...</h2>
+                <p id="reportDate" class="report-date">-</p>
+            </div>
+            <button class="close-btn" onclick="history.back()">뒤로가기</button>
+        </header>
+
+        <main class="report-main-grid">
+            <section class="summary-section">
+                <div class="summary-card">
+                    <div class="card-icon"><i class="fa-solid fa-robot"></i></div>
+                    <p id="aiComment" class="ai-comment">분석 결과를 정리하고 있습니다...</p>zz
+                </div>
+            </section>
+
+            <section class="table-section">
+                <div class="table-container">
+                    <table class="analysis-table">
+                        <thead id="tableHead"></thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <footer class="citation-footer">
+                <div class="citation-wrapper">
+                    <i class="fa-solid fa-link"></i>
+                    <span class="citation-label">참고 출처:</span>
+                    <div id="citationList" class="citation-links"></div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script src="report.js"></script>
+</body>
+</html>

@@ -13,6 +13,7 @@
     
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <link rel="stylesheet" href="message.css">
     <script src="message.js" defer></script>
@@ -37,17 +38,57 @@
                     <p class="nav-desc">메시지방</p>
                 </a>
             </div>
+            
             <div class="nav-group bottom">
-                <div class="nav-item"><img src="../img/icon_profile-removebg-preview.png" alt="Profile" class="nav-icon">
+                <div class="nav-item">
+                    <img src="../img/icon_profile-removebg-preview.png" alt="Profile" class="nav-icon">
                     <p class="nav-desc">프로필</p>
                 </div>
-                <div class="nav-item"><img src="../img/icon_settings-removebg-preview.png" alt="Settings" class="nav-icon">
+                
+                <div class="nav-item settings-wrapper">
+                    <img src="../img/icon_settings-removebg-preview.png" alt="Settings" class="nav-icon" id="settings-btn">
                     <p class="nav-desc">설정</p>
+
+                    <div class="settings-dropdown" id="settings-menu">
+                        <ul class="menu-list">
+                            <li id="theme-toggle-btn">
+                                <div class="menu-item-header">
+                                    <i class="fa-solid fa-moon"></i>
+                                    <span>다크모드 전환</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="menu-item-header">
+                                    <i class="fa-solid fa-circle-half-stroke"></i>
+                                    <span>테마 배경색</span>
+                                    <i class="fa-solid fa-chevron-right arrow"></i>
+                                </div>
+                                <div class="color-palette">
+                                    <div class="color-dot" style="background-color: #ffcdd2;" data-color="#ffcdd2" title="빨강"></div>
+                                    <div class="color-dot" style="background-color: #ffe0b2;" data-color="#ffe0b2" title="주황"></div>
+                                    <div class="color-dot" style="background-color: #fff9c4;" data-color="#fff9c4" title="노랑"></div>
+                                    <div class="color-dot" style="background-color: #c8e6c9;" data-color="#c8e6c9" title="초록"></div>
+                                    <div class="color-dot" style="background-color: #bbdefb;" data-color="#bbdefb" title="파랑"></div>
+                                    <div class="color-dot" style="background-color: #c5cae9;" data-color="#c5cae9" title="남색"></div>
+                                    <div class="color-dot" style="background-color: #e1bee7;" data-color="#e1bee7" title="보라"></div>
+                                    <div class="color-dot dot-reset" data-color="" title="초기화">
+                                        <i class="fa-solid fa-rotate-left" style="font-size: 10px; color: #ccc;"></i>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="menu-item-header">
+                                    <i class="fa-solid fa-circle-question"></i>
+                                    <span>도움말 및 고객센터</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
 
-        <main class="chat-area">
+        <main class="chat-area" id="main-content">
             <header class="chat-header">
                 <label for="explorer-toggle" class="hamburger-menu">☰</label>
                 ✨ 무엇을 도와드릴까요?
